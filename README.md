@@ -1,3 +1,9 @@
+# GreenZone
+This is a fork of the android-runner project, used by Team GreenZone for the course Green Lab at the VU University Amsterdam.
+
+Our (draft) paper can be found here:
+https://www.overleaf.com/read/wrzfytmnvjrx
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=S2-group_android-runner&metric=alert_status)](https://sonarcloud.io/dashboard?id=S2-group_android-runner)
 [![Build Status](https://travis-ci.org/S2-group/android-runner.svg?branch=master)](https://travis-ci.org/S2-group/android-runner)
 [![Coverage Status](https://coveralls.io/repos/github/S2-group/android-runner/badge.svg?branch=master)](https://coveralls.io/github/S2-group/android-runner?branch=master&service=github)
@@ -34,7 +40,7 @@ If Android Runner is helping your research, consider to cite it as follows, than
 ```
 
 ## Setting up environment, installation and dependencies
-Instructions can be found [here](https://github.com/S2-group/android-runner/blob/master/CONTRIBUTING.md).  Instructions for specific plugins are included in the plugins' READMEs.
+Instructions can be found [here](https://github.com/bommels/android-runner/blob/master/CONTRIBUTING.md).  Instructions for specific plugins are included in the plugins' READMEs.
 
 ## Quick start
 To run an experiment, run:
