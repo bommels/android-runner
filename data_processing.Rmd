@@ -1,0 +1,52 @@
+---
+title: "App vs Web App"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+# data <- read.csv()
+```
+
+# 1. Descriptive statistics
+```{r}
+
+
+```
+
+
+# 2. Select statistical test
+```{r}
+
+
+```
+
+
+# 3. Hypothesis testing
+```{r}
+
+
+```
+
+
+# 4. Effect size calculation
+```{r}
+
+
+```
+
+
+# 5. Power analysis (optional)
+```{r}
+
+
+```
+
+
