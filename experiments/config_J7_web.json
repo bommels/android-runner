@@ -1,0 +1,44 @@
+{
+  "type": "web",
+  "devices": {
+    "low-end": {}
+  },
+  "repetitions": 1,
+  "duration": 600,
+  "monkeyrunner_path": "/Users/stijn/Library/Android/sdk/tools/bin/monkeyrunner",
+  "systrace_path": "/Users/stijn/Library/Android/sdk/platform-tools/systrace/systrace.py",
+  "powerprofile_path": "/Users/stijn/Git/uni/GL/android-runner/experiments/power_profile/J7/power_profile.xml",
+  "browsers": ["chrome"],
+  "paths": [
+    "https://www.aliexpress.com/",
+    "https://www.booking.com/",
+    "https://www.reddit.com/",
+    "https://www.weather.com/",
+    "https://www.twitch.tv/",
+    "https://www.yelp.com",
+    "https://www.youtube.com/",
+    "https://www.zara.com/us/"
+  ],
+  "randomization": true,
+  "profilers": {
+    "batterystats": {
+      "cleanup": true
+    }
+  },
+  "interaction": [
+    {
+      "type": "python3",
+      "path": "scripts/interaction.py",
+      "timeout": 500
+    }
+  ],
+  "scripts": {
+    "before_experiment": "scripts/before_experiment.py",
+    "before_run": "scripts/before_run.py",
+    "after_launch": "scripts/after_launch.py",
+    "before_close": "scripts/before_close.py",
+    "after_run": "scripts/after_run.py",
+    "after_experiment": "scripts/after_experiment.py"
+  },
+  "time_between_run": 1200
+}
