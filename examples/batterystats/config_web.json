@@ -1,14 +1,14 @@
 {
   "type": "web",
   "devices": {
-    "nexus6p": {}
+    "low-end": {}
   },
   "repetitions": 1,
   "duration": 60000,
   "browsers": ["chrome"],
-  "monkeyrunner_path": "/home/user/Android/Sdk/tools/bin/monkeyrunner",
-  "systrace_path": "/home/user/Android/Sdk/platform-tools/systrace/systrace.py",
-  "powerprofile_path": "android-runner/examples/batterystats/Scripts/power_profile.xml", 
+  "monkeyrunner_path": "/Users/stijn/Library/Android/sdk/tools/bin/monkeyrunner",
+  "systrace_path": "/Users/stijn/Library/Android/sdk/platform-tools/systrace/systrace.py",
+  "powerprofile_path": "/Users/stijn/Git/uni/GL/android-runner/experiments/power_profile/J7/power_profile.xml",
   "paths": [
     "https://www.google.com"
   ],
