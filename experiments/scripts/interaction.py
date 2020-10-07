@@ -19,7 +19,7 @@ def swipe(device: Device, x1: int, y1: int, x2: int, y2: int, sleep = 4, duratio
     time.sleep(sleep)
 
 def scenarioWebTwitchJ7(device: Device):
-	while True:
+    while True:
         tap(device, 596, 189)
         write_text(device, 'Call of Duty')
         tap(device, 679, 1221)
