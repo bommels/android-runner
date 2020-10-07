@@ -1,0 +1,9 @@
+TOUCH|{'x':355,'y':1197,'type':'downAndUp',}
+TOUCH|{'x':355,'y':1197,'type':'downAndUp',}
+TOUCH|{'x':679,'y':194,'type':'downAndUp',}
+TOUCH|{'x':598,'y':173,'type':'downAndUp',}
+TYPE|{'message':'Shoes',}
+TOUCH|{'x':83,'y':269,'type':'downAndUp',}
+DRAG|{'start':(288,1024),'end':(288,204),'duration':1.0,'steps':10,}
+TOUCH|{'x':148,'y':640,'type':'downAndUp',}
+TOUCH|{'x':47,'y':178,'type':'downAndUp',}

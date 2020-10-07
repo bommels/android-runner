@@ -1,0 +1,5 @@
+TOUCH|{'x':366,'y':1104,'type':'downAndUp',}
+TOUCH|{'x':369,'y':194,'type':'downAndUp',}
+TYPE|{'message':'Amsterdam',}
+TOUCH|{'x':650,'y':1208,'type':'downAndUp',}
+DRAG|{'start':(288,1024),'end':(288,204),'duration':1.0,'steps':10,}

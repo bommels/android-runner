@@ -1,0 +1,7 @@
+TOUCH|{'x':596,'y':189,'type':'downAndUp',}
+TYPE|{'message':'Call of Duty',}
+TOUCH|{'x':679,'y':1221,'type':'downAndUp',}
+TOUCH|{'x':585,'y':280,'type':'downAndUp',}
+DRAG|{'start':(288,1024),'end':(288,204),'duration':1.0,'steps':10,}
+TOUCH|{'x':416,'y':306,'type':'downAndUp',}
+WAIT|{'seconds':5.0,}
