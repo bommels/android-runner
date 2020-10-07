@@ -119,6 +119,14 @@ class Device:
             self.su_plug()
         Adb.shell(self.id, 'dumpsys battery reset')
 
+    def current_web_page(self, website):
+        command = Adb.shell(self.id, 'dumpsys activity activities')
+        for line in command.split('\n'):
+            if(line.find(website) != -1):
+                return True
+        print('current_focus not found\n')
+        return False
+
     def current_activity(self):
         """Returns the current focused activity on the system"""
         # https://github.com/aldonin/appium-adb/blob/7b4ed3e7e2b384333bb85f8a2952a3083873a90e/lib/adb.js#L1278

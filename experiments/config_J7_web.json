@@ -4,7 +4,7 @@
     "low-end": {}
   },
   "repetitions": 1,
-  "duration": 600,
+  "duration": 60000,
   "monkeyrunner_path": "/Users/stijn/Library/Android/sdk/tools/bin/monkeyrunner",
   "systrace_path": "/Users/stijn/Library/Android/sdk/platform-tools/systrace/systrace.py",
   "powerprofile_path": "/Users/stijn/Git/uni/GL/android-runner/experiments/power_profile/J7/power_profile.xml",
@@ -25,20 +25,20 @@
       "cleanup": true
     }
   },
-  "interaction": [
-    {
-      "type": "python3",
-      "path": "scripts/interaction.py",
-      "timeout": 500
-    }
-  ],
   "scripts": {
     "before_experiment": "scripts/before_experiment.py",
     "before_run": "scripts/before_run.py",
     "after_launch": "scripts/after_launch.py",
+    "interaction": [
+      {
+        "type": "python3",
+        "path": "./scripts/interaction.py",
+        "timeout": 500
+      }
+    ],
     "before_close": "scripts/before_close.py",
     "after_run": "scripts/after_run.py",
     "after_experiment": "scripts/after_experiment.py"
   },
-  "time_between_run": 1200
+  "time_between_run": 120000
 }
