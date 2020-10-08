@@ -16,14 +16,6 @@ def swipe(device: Device, x1: int, y1: int, x2: int, y2: int, sleep = 4, duratio
     device.shell('input swipe %s %s %s %s %s' % (x1, y1, x2, y2, duration))
     time.sleep(sleep)
 
-def scenarioWebTwitchJ7(device: Device):
-    while True:
-        tap(device, 596, 189)
-        write_text(device, 'Call of Duty')
-        tap(device, 679, 1221)
-        tap(device, 585, 280)
-        swipe(device, 288, 1024, 288, 204)
-        tap(device, 416, 306)
 
 def scenarioWebAliExpressJ7(device: Device):
     tap(device, 369, 912) # print('remove pop up')
@@ -38,31 +30,92 @@ def scenarioWebAliExpressJ7(device: Device):
         tap(device, 661, 1218) # print('search btn')
         swipe(device, 288, 1024, 288, 204)
 
+def scenarioWebBookingJ7(device: Device):
+    tap(device, 546, 1218)
+    while True:
+        tap(device, 333, 760)
+        write_text(device, 'Amsterdam')
+        tap(device, 633, 1202)
+        swipe(device, 288, 1024, 288, 204)
+        swipe(device, 288, 204, 288, 1024)
+
+def scenarioWebDeliverooJ7(device: Device):
+    # while True:??
+    tap(device, 333, 738)
+    write_text(device, 'EC4R 3TE')
+    tap(device, 351, 554)
+    tap(device, 396, 1005)
+    swipe(device, 288, 204, 288, 1024)
+    swipe(device, 288, 204, 288, 1024)
+
+def scenarioWebTwitchJ7(device: Device):
+    while True:
+        tap(device, 596, 189)
+        write_text(device, 'Call of Duty')
+        tap(device, 679, 1221)
+        tap(device, 585, 280)
+        swipe(device, 288, 1024, 288, 204)
+        tap(device, 416, 306)
+
+def scenarioWebRedditJ7(device: Device):
+    tap(device, 598, 1200)
+    # while True:
+    tap(device, 148, 754)
+    tap(device, 157, 992)
+    swipe(device, 288, 204, 288, 1024)
+    swipe(device, 288, 204, 288, 1024)
+
+def scenarioWebWeatherJ7(device: Device):
+    tap(device, 366, 1104)
+    tap(device, 369, 194)
+    write_text(device, 'Amsterdam')
+    tap(device, 650, 1208)
+    swipe(device, 288, 204, 288, 1024)
+    swipe(device, 288, 204, 288, 1024)
+
+def scenarioWebYoutubeJ7(device: Device):
+    tap(device, 378, 893)
+    tap(device, 495, 941)
+    # while True:
+    swipe(device, 288, 204, 288, 1024)
+    swipe(device, 288, 204, 288, 1024)
+    tap(device, 357, 1234)
+    tap(device, 407, 613)
+    tap(device, 117, 186)
+
+def scenarioWebZaraJ7(device: Device):
+    tap(device, 355, 1197)
+    tap(device, 355, 1197)
+    tap(device, 679, 194)
+    # while True:
+    tap(device, 598, 173)
+    write_text(device, 'Shoes')
+    tap(device, 83, 269)
+    swipe(device, 288, 204, 288, 1024)
+    tap(device, 148, 640)
+    tap(device, 47, 178)
+
 def main(device, *args, **kwargs):
     print('=INTERACTION=')
     print((device))
     print((device.id))
-    # print((device.current_activity())) # Should return the current URL it doesn't..
-    # print(device.current_web_page('https://www.aliexpress.com')) # should be a regex match probably
-    
-    # if device.current_web_page('https://www.aliexpress.com'):
-    scenarioWebAliExpressJ7(device)
-    # elif device.current_web_page('https://www.booking.com/'):
-    #     scenarioWebBookingJ7(device)
-    # elif device.current_web_page('https://www.reddit.com/'):
-    #     scenarioWebRedditJ7(device)
-    # elif device.current_web_page('https://www.weather.com/'):
-    #     scenarioWebWeatherJ7(device)
-    # elif device.current_web_page('https://www.twitch.tv/'):
-    #     scenarioWebTwitchJ7(device)
-    # elif device.current_web_page('https://www.yelp.com/'):
-    #     scenarioWebYelpJ7(device)
-    # elif device.current_web_page('https://www.youtube.com/'):
-    #     scenarioWebYoutubeJ7(device)
-    # elif device.current_web_page('https://www.zara.com/us/'):
-    #     scenarioWebZaraJ7(device)
-    # else:
-    #     raise Exception('There is no known interaction script for this subject')
+    print((device.current_activity())) # Should return the current URL it doesn't..
 
-    # elif device.current_activity().find('https://www.zara.com/us/') != -1:
-    #     # scenarioWebZaraJ7(device)
+    if device.current_activity().find('https://www.aliexpress.com/') != -1:
+        scenarioWebAliExpressJ7(device)
+    elif device.current_activity().find('https://www.booking.com/') != -1:
+        scenarioWebBookingJ7(device)
+    elif device.current_activity().find('https://www.reddit.com/') != -1:
+        scenarioWebRedditJ7(device)
+    elif device.current_activity().find('https://www.weather.com/') != -1:
+        scenarioWebWeatherJ7(device)
+    elif device.current_activity().find('https://www.twitch.tv/') != -1:
+        scenarioWebTwitchJ7(device)
+    elif device.current_activity().find('https://deliveroo.co.uk/') != -1:
+        scenarioWebDeliverooJ7(device)
+    elif device.current_activity().find('https://www.youtube.com/') != -1:
+        scenarioWebYoutubeJ7(device)
+    elif device.current_activity().find('https://www.zara.com/us/') != -1:
+        scenarioWebZaraJ7(device)
+    else:
+        raise Exception('There is no known interaction script for this subject')

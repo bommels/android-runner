@@ -1,0 +1,5 @@
+TOUCH|{'x':333,'y':738,'type':'downAndUp',}
+TYPE|{'message':'EC4R 3TE',}
+TOUCH|{'x':351,'y':554,'type':'downAndUp',}
+TOUCH|{'x':396,'y':1005,'type':'downAndUp',}
+DRAG|{'start':(288,1024),'end':(288,204),'duration':1.0,'steps':10,}
