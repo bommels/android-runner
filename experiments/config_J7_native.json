@@ -1,5 +1,5 @@
 {
-  "type": "web",
+  "type": "native",
   "devices": {
     "low-end": {}
   },
@@ -8,18 +8,10 @@
   "monkeyrunner_path": "/Users/stijn/Library/Android/sdk/tools/bin/monkeyrunner",
   "systrace_path": "/Users/stijn/Library/Android/sdk/platform-tools/systrace/systrace.py",
   "powerprofile_path": "/Users/stijn/Git/uni/GL/android-runner/experiments/power_profile/J7/power_profile.xml",
-  "browsers": ["chrome"],
-  "paths": [
-    "https://www.aliexpress.com/",
-    "https://www.booking.com/",
-    "https://deliveroo.co.uk/",
-    "https://www.reddit.com/",
-    "https://www.weather.com/",
-    "https://www.twitch.tv/",
-    "https://www.youtube.com/",
-    "https://www.zara.com/us/"
-  ],
   "randomization": true,
+  "paths": [
+    "android-runner/experiments/apps/com.weather.Weather.apk"
+  ],
   "profilers": {
     "batterystats": {
       "cleanup": true
@@ -32,7 +24,7 @@
     "interaction": [
       {
         "type": "python3",
-        "path": "./scripts/interaction.py",
+        "path": "./scripts/interaction_native.py",
         "timeout": 65000
       }
     ],
