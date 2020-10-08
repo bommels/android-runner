@@ -17,7 +17,7 @@ def swipe(device: Device, x1: int, y1: int, x2: int, y2: int, sleep = 4, duratio
     time.sleep(sleep)
 
 def scenarioNativeAliExpressJ7(device: Device):
-    # tap(device, 369, 912) # print('remove pop up')
+    tap(device, 369, 912) # print('remove pop up')
     # tap(device, 243, 410) # print('search')
     # write_text(device, 'Shoes') # print('search write')
     # tap(device, 661, 1218) # print('search btn')
@@ -30,7 +30,7 @@ def scenarioNativeAliExpressJ7(device: Device):
     #     swipe(device, 288, 1024, 288, 204)
 
 def scenarioNativeBookingJ7(device: Device):
-    # tap(device, 546, 1218)
+    tap(device, 546, 1218)
     # while True:
     #     tap(device, 333, 760)
     #     write_text(device, 'Amsterdam')
@@ -40,7 +40,7 @@ def scenarioNativeBookingJ7(device: Device):
 
 def scenarioNativeDeliverooJ7(device: Device):
     # while True:??
-    # tap(device, 333, 738)
+    tap(device, 333, 738)
     # write_text(device, 'EC4R 3TE')
     # tap(device, 351, 554)
     # tap(device, 396, 1005)
@@ -49,7 +49,7 @@ def scenarioNativeDeliverooJ7(device: Device):
 
 def scenarioNativeTwitchJ7(device: Device):
     # while True:
-    #     tap(device, 596, 189)
+    tap(device, 596, 189)
     #     write_text(device, 'Call of Duty')
     #     tap(device, 679, 1221)
     #     tap(device, 585, 280)
@@ -57,7 +57,7 @@ def scenarioNativeTwitchJ7(device: Device):
     #     tap(device, 416, 306)
 
 def scenarioNativeRedditJ7(device: Device):
-    # tap(device, 598, 1200)
+    tap(device, 598, 1200)
     # # while True:
     # tap(device, 148, 754)
     # tap(device, 157, 992)
@@ -78,7 +78,7 @@ def scenarioNativeWeatherJ7(device: Device):
     tap(device, 67, 82) # search top
 
 def scenarioNativeYoutubeJ7(device: Device):
-    # tap(device, 378, 893)
+    tap(device, 378, 893)
     # tap(device, 495, 941)
     # # while True:
     # swipe(device, 288, 204, 288, 1024)
@@ -88,7 +88,7 @@ def scenarioNativeYoutubeJ7(device: Device):
     # tap(device, 117, 186)
 
 def scenarioNativeZaraJ7(device: Device):
-    # tap(device, 355, 1197)
+    tap(device, 355, 1197)
     # tap(device, 355, 1197)
     # tap(device, 679, 194)
     # # while True:
@@ -108,20 +108,28 @@ def main(device, *args, **kwargs):
 
     # todo change find string
     if device.current_activity().find('AliExpress') != -1:
+        print('running aliexpress')
         scenarioNativeAliExpressJ7(device)
     elif device.current_activity().find('Booking') != -1:
+        print('running booking')
         scenarioNativeBookingJ7(device)
     elif device.current_activity().find('Deliveroo') != -1:
+        print('running deliveroo')
         scenarioNativeDeliverooJ7(device)
     elif device.current_activity().find('Reddit') != -1:
+        print('running reddit')
         scenarioNativeRedditJ7(device)
     elif device.current_activity().find('Twitch') != -1:
+        print('running twitch')
         scenarioNativeTwitchJ7(device)
     elif device.current_activity().find('com.weather') != -1:
+        print('running weather')
         scenarioNativeWeatherJ7(device)
     elif device.current_activity().find('YouTube') != -1:
+        print('running youtube')
         scenarioNativeYoutubeJ7(device)
-    elif device.current_activity().find('Zara') != -1:
+    elif device.current_activity().find('com.inditex.zara') != -1:
+        print('running zara')
         scenarioNativeZaraJ7(device)
     else:
         raise Exception('There is no known interaction script for this subject')
