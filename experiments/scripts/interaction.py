@@ -99,23 +99,23 @@ def main(device, *args, **kwargs):
     print('=INTERACTION=')
     print((device))
     print((device.id))
-    print((device.current_activity())) # Should return the current URL it doesn't..
+    print((args[1])) # URL
 
-    if device.current_activity().find('https://www.aliexpress.com/') != -1:
+    if args[1] in 'https://www.aliexpress.com/':
         scenarioWebAliExpressJ7(device)
-    elif device.current_activity().find('https://www.booking.com/') != -1:
+    elif args[1] in 'https://www.booking.com/':
         scenarioWebBookingJ7(device)
-    elif device.current_activity().find('https://www.reddit.com/') != -1:
+    elif args[1] in 'https://www.reddit.com/':
         scenarioWebRedditJ7(device)
-    elif device.current_activity().find('https://www.weather.com/') != -1:
+    elif args[1] in 'https://www.weather.com/':
         scenarioWebWeatherJ7(device)
-    elif device.current_activity().find('https://www.twitch.tv/') != -1:
+    elif args[1] in 'https://www.twitch.tv/':
         scenarioWebTwitchJ7(device)
-    elif device.current_activity().find('https://deliveroo.co.uk/') != -1:
+    elif args[1] in 'https://deliveroo.co.uk/':
         scenarioWebDeliverooJ7(device)
-    elif device.current_activity().find('https://www.youtube.com/') != -1:
+    elif args[1] in 'https://www.youtube.com/':
         scenarioWebYoutubeJ7(device)
-    elif device.current_activity().find('https://www.zara.com/us/') != -1:
+    elif args[1] in 'https://www.zara.com/us/':
         scenarioWebZaraJ7(device)
     else:
         raise Exception('There is no known interaction script for this subject')

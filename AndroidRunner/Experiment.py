@@ -202,7 +202,7 @@ class Experiment(object):
 
     def interaction(self, device, path, run, *args, **kwargs):
         """Interactions on the device to be profiled"""
-        self.scripts.run('interaction', device, *args, **kwargs)
+        self.scripts.run('interaction', device, path, **kwargs)
 
     def stop_profiling(self, device, path, run, *args, **kwargs):
         self.profilers.stop_profiling(device)
