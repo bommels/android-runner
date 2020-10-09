@@ -3,7 +3,7 @@
   "devices": {
     "low-end": {}
   },
-  "repetitions": 15,
+  "repetitions": 2,
   "duration": 60000,
   "monkeyrunner_path": "/Users/stijn/Library/Android/sdk/tools/bin/monkeyrunner",
   "systrace_path": "/Users/stijn/Library/Android/sdk/platform-tools/systrace/systrace.py",
@@ -22,7 +22,11 @@
   "randomization": true,
   "profilers": {
     "batterystats": {
-      "cleanup": true
+      "cleanup": true,
+      "subject_aggregation": "default",
+      "experiment_aggregation": "default",
+      "enable_systrace_parsing": false,
+      "python2_path": "python2"
     }
   },
   "scripts": {
