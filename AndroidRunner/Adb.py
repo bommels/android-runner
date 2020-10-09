@@ -92,15 +92,20 @@ def install(device_id, apk, replace=True, all_permissions=True):
                 os.makedirs(path_apks_to_be_installed)
             zip_ref.extractall(path_apks_to_be_installed)
 
+        os.chdir(path_apks_to_be_installed)
+
+        current_working_directory = os.getcwd()
+
         apk_files = glob.glob('*.apk')
 
         if not apk_files:
             raise ConfigError('No apks found in xapk')
 
-        apk_files_paths = [op.join(path_apks_to_be_installed, apk_file) for apk_file in apk_files]
+        apk_files_paths = [op.join(current_working_directory, apk_file) for apk_file in apk_files]
 
         # arguments of install-multiple
         apk = ' '.join(apk_files_paths)
+        logger.info('installing APKs %s' % apk)
 
     else:
         cmd = 'install'
