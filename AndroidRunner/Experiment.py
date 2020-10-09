@@ -68,6 +68,7 @@ class Experiment(object):
             self.result_file_structure = self.walk_to_list(walk(result_data_path))
             while not self.progress.experiment_finished_check():
                 current_run = self.get_experiment()
+                print('current_run:::: ', current_run)
                 self.run_experiment(current_run)
                 self.save_progress()
         except Exception as e:

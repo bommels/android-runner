@@ -32,7 +32,7 @@
     "interaction": [
       {
         "type": "python3",
-        "path": "./scripts/interaction.py",
+        "path": "./scripts/interaction_web.py",
         "timeout": 65000
       }
     ],

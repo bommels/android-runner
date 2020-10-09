@@ -338,7 +338,7 @@ def parse_systrace(app, systrace_file, logcat, batterystats, power_profile, core
         pattern = re.compile(r'(?:<.{3,4}>-\d{1,4}|kworker.+-\d{3}).*\s(\d+\.\d+): (cpu_.*): state=(.*) cpu_id=(\d)')
         unix_time_pattern = re.compile(r'(\d+\.\d+):\stracing_mark_write:\strace_event_clock_sync:\srealtime_ts=(\d+)')
         logcat_time = parse_logcat(app, logcat)
-        systrace_time = float(unix_time_pattern.search(f).group(2))
+        systrace_time = float(unix_time_pattern.search(f).group(2)) # NoneType object has no attribute group
         start_time = (logcat_time[0] - systrace_time) / 1000 + float(unix_time_pattern.search(f).group(1))
         end_time = (logcat_time[1] - systrace_time) / 1000 + float(unix_time_pattern.search(f).group(1))
         cpu_id_list = []
