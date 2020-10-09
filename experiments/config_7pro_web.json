@@ -10,8 +10,16 @@
   "systrace_path": "/home/lucien/Android/Sdk/platform-tools/systrace/systrace.py",
   "powerprofile_path": "/home/lucien/Desktop/green-lab/power_profile.xml", 
   "paths": [
-    "https://www.google.com"
+    "https://www.aliexpress.com/",
+    "https://www.booking.com/",
+    "https://deliveroo.co.uk/",
+    "https://www.reddit.com/",
+    "https://www.weather.com/",
+    "https://www.twitch.tv/",
+    "https://www.youtube.com/",
+    "https://www.zara.com/us/"
   ],
+  "randomization": true,
   "profilers": {
     "batterystats": {
       "cleanup": true
@@ -24,9 +32,8 @@
     "interaction": [
       {
         "type": "python3",
-        "path": "Scripts/interaction.py",
-        "timeout": 500,
-        "logcat_regex": "some keyword"
+        "path": "./scripts/interaction.py",
+        "timeout": 65000
       }
     ],
     "before_close": "Scripts/before_close.py",
