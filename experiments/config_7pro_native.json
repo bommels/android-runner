@@ -10,12 +10,6 @@
   "powerprofile_path": "/home/lucien/Desktop/green-lab/power_profile.xml",
   "randomization": true,
   "paths": [
-    "android-runner/experiments/apps/com.alibaba.alieexpresshd.xapk",
-    "android-runner/experiments/apps/com.booking.xapk",
-    "android-runner/experiments/apps/com.deliveroo.orderapp.xapk",
-    "android-runner/experiments/apps/com.google.android.youtube.xapk",
-    "android-runner/experiments/apps/com.reddit.frontpage.xapk",
-    "android-runner/experiments/apps/com.weather.Weather.apk",
     "android-runner/experiments/apps/tv.twitch.android.app.xapk"
   ],
   "profilers": {
@@ -24,9 +18,9 @@
     }
   },
   "scripts": {
-    "before_experiment": "Scripts/before_experiment.py",
-    "before_run": "Scripts/before_run.py",
-    "after_launch": "Scripts/after_launch.py",
+    "before_experiment": "scripts/before_experiment.py",
+    "before_run": "scripts/before_run.py",
+    "after_launch": "scripts/after_launch.py",
     "interaction": [
       {
         "type": "python3",
@@ -34,9 +28,9 @@
         "timeout": 65000
       }
     ],
-    "before_close": "Scripts/before_close.py",
-    "after_run": "Scripts/after_run.py",
-    "after_experiment": "Scripts/after_experiment.py"
+    "before_close": "scripts/before_close.py",
+    "after_run": "scripts/after_run.py",
+    "after_experiment": "scripts/after_experiment.py"
   },
   "time_between_run": 120000
 }
