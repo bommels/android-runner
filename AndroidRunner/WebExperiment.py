@@ -47,6 +47,7 @@ class WebExperiment(Experiment):
         super(WebExperiment, self).before_run(device, path, run)
         device.shell('logcat -c')
         browser = args[0]
+        print('WebExperiment: starting browser', browser)
         browser.start(device)
         time.sleep(5)
 
