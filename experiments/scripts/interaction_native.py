@@ -17,7 +17,7 @@ def swipe(device: Device, x1: int, y1: int, x2: int, y2: int, sleep = 4, duratio
     time.sleep(sleep)
 
 def scenarioNativeAliExpressJ7(device: Device):
-    tap(device, 369, 912) # print('remove pop up')
+    # tap(device, 369, 912) # print('remove pop up')
     # tap(device, 243, 410) # print('search')
     # write_text(device, 'Shoes') # print('search write')
     # tap(device, 661, 1218) # print('search btn')
@@ -28,41 +28,46 @@ def scenarioNativeAliExpressJ7(device: Device):
     #     write_text(device, 'Shoes') # print('search write')
     #     tap(device, 661, 1218) # print('search btn')
     #     swipe(device, 288, 1024, 288, 204)
+    pass
 
 def scenarioNativeBookingJ7(device: Device):
-    tap(device, 546, 1218)
+    # tap(device, 546, 1218)
     # while True:
     #     tap(device, 333, 760)
     #     write_text(device, 'Amsterdam')
     #     tap(device, 633, 1202)
     #     swipe(device, 288, 1024, 288, 204)
     #     swipe(device, 288, 204, 288, 1024)
+    pass
 
 def scenarioNativeDeliverooJ7(device: Device):
     # while True:??
-    tap(device, 333, 738)
+    # tap(device, 333, 738)
     # write_text(device, 'EC4R 3TE')
     # tap(device, 351, 554)
     # tap(device, 396, 1005)
     # swipe(device, 288, 204, 288, 1024)
     # swipe(device, 288, 204, 288, 1024)
+    pass
 
 def scenarioNativeTwitchJ7(device: Device):
     # while True:
-    tap(device, 596, 189)
+    # tap(device, 596, 189)
     #     write_text(device, 'Call of Duty')
     #     tap(device, 679, 1221)
     #     tap(device, 585, 280)
     #     swipe(device, 288, 1024, 288, 204)
     #     tap(device, 416, 306)
+    pass
 
 def scenarioNativeRedditJ7(device: Device):
-    tap(device, 598, 1200)
+    # tap(device, 598, 1200)
     # # while True:
     # tap(device, 148, 754)
     # tap(device, 157, 992)
     # swipe(device, 288, 204, 288, 1024)
     # swipe(device, 288, 204, 288, 1024)
+    pass
 
 def scenarioNativeWeatherJ7(device: Device):
     tap(device, 365, 1160) # Next 
@@ -78,7 +83,7 @@ def scenarioNativeWeatherJ7(device: Device):
     tap(device, 67, 82) # search top
 
 def scenarioNativeYoutubeJ7(device: Device):
-    tap(device, 378, 893)
+    # tap(device, 378, 893)
     # tap(device, 495, 941)
     # # while True:
     # swipe(device, 288, 204, 288, 1024)
@@ -86,9 +91,10 @@ def scenarioNativeYoutubeJ7(device: Device):
     # tap(device, 357, 1234)
     # tap(device, 407, 613)
     # tap(device, 117, 186)
+    pass
 
 def scenarioNativeZaraJ7(device: Device):
-    tap(device, 355, 1197)
+    # tap(device, 355, 1197)
     # tap(device, 355, 1197)
     # tap(device, 679, 194)
     # # while True:
@@ -98,6 +104,7 @@ def scenarioNativeZaraJ7(device: Device):
     # swipe(device, 288, 204, 288, 1024)
     # tap(device, 148, 640)
     # tap(device, 47, 178)
+    pass
 
 def main(device, *args, **kwargs):
     #TODO Somehow before this runs something takes ages..?
@@ -107,25 +114,25 @@ def main(device, *args, **kwargs):
     print((device.current_activity()))
 
     # todo change find string
-    if device.current_activity().find('AliExpress') != -1:
+    if device.current_activity().find('com.alibaba.aliexpresshd') != -1:
         print('running aliexpress')
         scenarioNativeAliExpressJ7(device)
-    elif device.current_activity().find('Booking') != -1:
+    elif device.current_activity().find('com.booking') != -1:
         print('running booking')
         scenarioNativeBookingJ7(device)
-    elif device.current_activity().find('Deliveroo') != -1:
+    elif device.current_activity().find('com.deliveroo.orderapp') != -1:
         print('running deliveroo')
         scenarioNativeDeliverooJ7(device)
-    elif device.current_activity().find('Reddit') != -1:
+    elif device.current_activity().find('com.reddit.frontpage') != -1:
         print('running reddit')
         scenarioNativeRedditJ7(device)
-    elif device.current_activity().find('Twitch') != -1:
+    elif device.current_activity().find('tv.twitch.android.app') != -1:
         print('running twitch')
         scenarioNativeTwitchJ7(device)
     elif device.current_activity().find('com.weather') != -1:
         print('running weather')
         scenarioNativeWeatherJ7(device)
-    elif device.current_activity().find('YouTube') != -1:
+    elif device.current_activity().find('com.google.android.youtube') != -1:
         print('running youtube')
         scenarioNativeYoutubeJ7(device)
     elif device.current_activity().find('com.inditex.zara') != -1:
