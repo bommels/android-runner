@@ -84,7 +84,7 @@ def install(device_id, apk, replace=True, all_permissions=True):
 
     if extension == '.xapk':
         cmd = 'install-multiple'
-
+        android_runner_dir = os.getcwd()
         # get path of directory apks will be unzipped into.
         path_apks_to_be_installed = op.splitext(apk)[0].lower()
         with zipfile.ZipFile(apk, 'r') as zip_ref:
@@ -106,7 +106,7 @@ def install(device_id, apk, replace=True, all_permissions=True):
         # arguments of install-multiple
         apk = ' '.join(apk_files_paths)
         logger.info('installing APKs %s' % apk)
-
+        os.chdir(android_runner_dir) # go back to android runner dir
     else:
         cmd = 'install'
         
