@@ -37,7 +37,8 @@
     "interaction": [
       {
         "type": "python3",
-        "path": "./scripts/interaction_native.py"
+        "path": "./scripts/interaction_native.py",
+        "timeout": 65000
       }
     ],
     "before_close": "scripts/before_close.py",
