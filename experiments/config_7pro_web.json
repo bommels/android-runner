@@ -5,7 +5,7 @@
   },
   "repetitions": 2,
   "clear_cache": true, 
-  "duration": 10000,
+  "duration": 30000,
   "browsers": ["chrome"],
   "monkeyrunner_path": "/home/lucien/Android/Sdk/tools/bin/monkeyrunner",
   "systrace_path": "/home/lucien/Android/Sdk/platform-tools/systrace/systrace.py",
@@ -38,7 +38,7 @@
       {
         "type": "python3",
         "path": "./scripts/interaction_web_7pro.py",
-        "timeout": 15000
+        "timeout": 35000
       }
     ],
     "before_close": "scripts/before_close.py",
