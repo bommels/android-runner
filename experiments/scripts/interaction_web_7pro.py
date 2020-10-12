@@ -142,9 +142,9 @@ def main(device, *args, **kwargs):
         scenarioWebReddit7pro(device, isFirstRun)
     elif URL in 'https://www.weather.com/':
         scenarioWebWeather7pro(device, isFirstRun)
-    elif URL in 'https://9gag.com/':
+    elif URL in 'https://www.9gag.com/':
         scenarioWeb9GAG7pro(device, isFirstRun)
-    elif URL in 'https://deliveroo.co.uk/':
+    elif URL in 'https://www.deliveroo.co.uk/':
         scenarioWebDeliveroo7pro(device, isFirstRun)
     elif URL in 'https://www.youtube.com/':
         scenarioWebYoutube7pro(device, isFirstRun)

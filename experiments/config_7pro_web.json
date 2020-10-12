@@ -33,7 +33,7 @@
   "scripts": {
     "before_experiment": "scripts/before_experiment.py",
     "before_run": "scripts/before_run.py",
-    "after_launch": "scripts/after_launch.py",
+    "after_launch": "scripts/after_launch_7pro.py",
     "interaction": [
       {
         "type": "python3",
