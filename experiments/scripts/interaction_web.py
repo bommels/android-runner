@@ -1,5 +1,6 @@
 import logging
 import time
+
 from AndroidRunner.Device import Device
 
 logger = logging.getLogger(__name__)
@@ -33,7 +34,7 @@ def scenarioWebAliExpressJ7(device: Device, isFirstRun):
 
 def scenarioWebBookingJ7(device: Device, isFirstRun):
     # if isFirstRun:
-    tap(device, 546, 1218) # accept cookies
+    tap(device, 546, 1218) # Accept cookies
     tap(device, 333, 760) # First search
     write_text(device, 'Amsterdam')
     tap(device, 633, 1202) # keyboard search btn 
