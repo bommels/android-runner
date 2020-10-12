@@ -18,8 +18,8 @@ def swipe(device: Device, x1: int, y1: int, x2: int, y2: int, sleep = 4, duratio
 
 
 def scenarioWebAliExpress7pro(device: Device, isFirstRun):
-    # if isFirstRun:
-    tap(device, 742, 2028) # print('remove pop up')
+    time.sleep(3) # wait for cookies
+    tap(device, 733, 1742) # print('remove pop up')
     tap(device, 990, 864) # print('search')
     write_text(device, 'Shoes') # print('search write')
     tap(device, 1341, 2788) # print('search btn')
@@ -32,8 +32,8 @@ def scenarioWebAliExpress7pro(device: Device, isFirstRun):
         swipe(device, 288, 1024, 288, 204)
 
 def scenarioWebBooking7pro(device: Device, isFirstRun):
-    # if isFirstRun:
-    tap(device, 1156, 2782) # accept cookies
+    time.sleep(3) # wait for cookies
+    tap(device, 1102, 2782) # accept cookies
     tap(device, 697, 1592) # First search
     write_text(device, 'Amsterdam')
     tap(device, 1336, 2821) # keyboard search btn 
@@ -48,6 +48,8 @@ def scenarioWebBooking7pro(device: Device, isFirstRun):
         tap(device, 796, 1631) # Blue search
 
 def scenarioWebDeliveroo7pro(device: Device, isFirstRun):
+    time.sleep(3) # Wait a little longer for the pop up
+    tap(device, 801, 2801) # accept cookies
     tap(device, 940, 1553) # Tap zip code search
     write_text(device, 'EC4R 3TE')
     tap(device, 895, 1742) # search
@@ -58,7 +60,7 @@ def scenarioWebDeliveroo7pro(device: Device, isFirstRun):
         swipe(device, 288, 204, 288, 1024)
 
 def scenarioWeb9GAG7pro(device: Device, isFirstRun):
-    time.sleep(2) # wait for cookies
+    time.sleep(3) # wait for cookies
     tap(device, 936, 2288) # Accept cookies
     tap(device, 1219, 2808) # Continue to web app
     #tap(device, 670, 1224) # Remove bottom bar
@@ -71,8 +73,7 @@ def scenarioWeb9GAG7pro(device: Device, isFirstRun):
         swipe(device, 288, 204, 288, 1024)
 
 def scenarioWebReddit7pro(device: Device, isFirstRun):
-    # tap(device, 40, 1232) # Click away different app pop up (try)
-    time.sleep(2) # Wait a little longer for the pop up
+    time.sleep(3) # Wait a little longer for the pop up
     tap(device, 1147, 2782) # Continue web version
     # if isFirstRun:
     #tap(device, 868, 1735) # block notifications
@@ -91,8 +92,8 @@ def scenarioWebReddit7pro(device: Device, isFirstRun):
         swipe(device, 288, 204, 288, 1024)
 
 def scenarioWebWeather7pro(device: Device, isFirstRun):
-    # if isFirstRun:
-    tap(device, 751, 2561) # Agree
+    time.sleep(3) # wait for cookies
+    tap(device, 796, 2587) # Agree
     tap(device, 900, 422) # search bar
     while True:
         write_text(device, 'Amsterdam')
@@ -102,7 +103,7 @@ def scenarioWebWeather7pro(device: Device, isFirstRun):
         tap(device, 747, 403) # search bar
 
 def scenarioWebYoutube7pro(device: Device, isFirstRun):
-    # if isFirstRun:
+    time.sleep(3) # wait for cookies
     tap(device, 742, 1963) # Do not sign in
     tap(device, 1039, 2047) # agree 
     while True:
@@ -113,7 +114,7 @@ def scenarioWebYoutube7pro(device: Device, isFirstRun):
         tap(device, 220, 409) # Youtube home page
 
 def scenarioWebZara7pro(device: Device, isFirstRun):
-    # if isFirstRun:
+    time.sleep(3) # wait for cookies
     tap(device, 1372, 429) # Cookies
     tap(device, 639, 2522) # Stay on Us
     tap(device, 1201, 390) # Search bar
