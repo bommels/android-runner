@@ -18,8 +18,8 @@ def swipe(device: Device, x1: int, y1: int, x2: int, y2: int, sleep = 4, duratio
 
 
 def scenarioWebAliExpressJ7(device: Device, isFirstRun):
-    if isFirstRun:
-        tap(device, 369, 912) # print('remove pop up')
+    # if isFirstRun:
+    tap(device, 369, 912) # print('remove pop up')
     tap(device, 243, 410) # print('search')
     write_text(device, 'Shoes') # print('search write')
     tap(device, 661, 1218) # print('search btn')
@@ -32,8 +32,8 @@ def scenarioWebAliExpressJ7(device: Device, isFirstRun):
         swipe(device, 288, 1024, 288, 204)
 
 def scenarioWebBookingJ7(device: Device, isFirstRun):
-    if isFirstRun:
-        tap(device, 546, 1218) # accept cookies
+    # if isFirstRun:
+    tap(device, 546, 1218) # accept cookies
     tap(device, 333, 760) # First search
     write_text(device, 'Amsterdam')
     tap(device, 633, 1202) # keyboard search btn 
@@ -70,9 +70,9 @@ def scenarioWebRedditJ7(device: Device, isFirstRun):
     # tap(device, 40, 1232) # Click away different app pop up (try)
     time.sleep(2) # Wait a little longer for the pop up
     tap(device, 598, 1200) # Continue web version
-    if isFirstRun:
-        tap(device, 434, 768) # block notifications
-        tap(device, 690, 256) # cookies
+    # if isFirstRun:
+    tap(device, 434, 768) # block notifications
+    tap(device, 690, 256) # cookies
     # else:
         # tap(device, 40, 1232) # Click away different app pop up
     # tap(device, 625, 912) # Click first meme --> can be a link to some different website
@@ -87,8 +87,8 @@ def scenarioWebRedditJ7(device: Device, isFirstRun):
         swipe(device, 288, 204, 288, 1024)
 
 def scenarioWebWeatherJ7(device: Device, isFirstRun):
-    if isFirstRun:
-        tap(device, 366, 1104) # Agree
+    # if isFirstRun:
+    tap(device, 366, 1104) # Agree
     tap(device, 369, 194) # search bar
     while True:
         write_text(device, 'Amsterdam')
@@ -98,9 +98,9 @@ def scenarioWebWeatherJ7(device: Device, isFirstRun):
         tap(device, 562, 186) # search bar
 
 def scenarioWebYoutubeJ7(device: Device, isFirstRun):
-    if isFirstRun:
-        tap(device, 378, 893) # Do not sign in
-        tap(device, 495, 941) # agree 
+    # if isFirstRun:
+    tap(device, 378, 893) # Do not sign in
+    tap(device, 495, 941) # agree 
     while True:
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
@@ -109,9 +109,9 @@ def scenarioWebYoutubeJ7(device: Device, isFirstRun):
         tap(device, 117, 186) # Youtube home page
 
 def scenarioWebZaraJ7(device: Device, isFirstRun):
-    if isFirstRun:
-        tap(device, 679, 194) # Cookies
-        tap(device, 355, 1097) # Stay on Us
+    # if isFirstRun:
+    tap(device, 679, 194) # Cookies
+    tap(device, 355, 1097) # Stay on Us
     tap(device, 598, 173) # Search bar
     tap(device, 353, 181) # Focus search bar
     while True:
