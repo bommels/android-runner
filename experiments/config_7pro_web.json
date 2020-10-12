@@ -3,8 +3,9 @@
   "devices": {
     "high-end": {}
   },
-  "repetitions": 1,
-  "duration": 60000,
+  "repetitions": 2,
+  "clear_cache": true, 
+  "duration": 10000,
   "browsers": ["chrome"],
   "monkeyrunner_path": "/home/lucien/Android/Sdk/tools/bin/monkeyrunner",
   "systrace_path": "/home/lucien/Android/Sdk/platform-tools/systrace/systrace.py",
@@ -15,7 +16,7 @@
     "https://deliveroo.co.uk/",
     "https://www.reddit.com/",
     "https://www.weather.com/",
-    "https://www.twitch.tv/",
+    "https://www.9gag.com/",
     "https://www.youtube.com/",
     "https://www.zara.com/us/"
   ],
@@ -32,13 +33,13 @@
     "interaction": [
       {
         "type": "python3",
-        "path": "./scripts/interaction.py",
-        "timeout": 65000
+        "path": "./scripts/interaction_web_7pro.py",
+        "timeout": 15000
       }
     ],
     "before_close": "Scripts/before_close.py",
     "after_run": "Scripts/after_run.py",
     "after_experiment": "Scripts/after_experiment.py"
   },
-  "time_between_run": 120000
+  "time_between_run": 0
 }
