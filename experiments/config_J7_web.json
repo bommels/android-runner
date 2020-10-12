@@ -4,6 +4,7 @@
     "low-end": {}
   },
   "repetitions": 15,
+  "clear_cache": true, 
   "duration": 60000,
   "monkeyrunner_path": "/Users/stijn/Library/Android/sdk/tools/bin/monkeyrunner",
   "systrace_path": "/Users/stijn/Library/Android/sdk/platform-tools/systrace/systrace.py",
@@ -15,7 +16,7 @@
     "https://deliveroo.co.uk/",
     "https://www.reddit.com/",
     "https://www.weather.com/",
-    "https://www.twitch.tv/",
+    "https://9gag.com/",
     "https://www.youtube.com/",
     "https://www.zara.com/us/"
   ],

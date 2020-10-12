@@ -107,13 +107,11 @@ def scenarioNativeZaraJ7(device: Device):
     pass
 
 def main(device, *args, **kwargs):
-    #TODO Somehow before this runs something takes ages..?
     print('=INTERACTION=')
     print((device))
     print((device.id))
     print((device.current_activity()))
 
-    # todo change find string
     if device.current_activity().find('com.alibaba.aliexpresshd') != -1:
         print('running aliexpress')
         scenarioNativeAliExpressJ7(device)
@@ -126,8 +124,8 @@ def main(device, *args, **kwargs):
     elif device.current_activity().find('com.reddit.frontpage') != -1:
         print('running reddit')
         scenarioNativeRedditJ7(device)
-    elif device.current_activity().find('tv.twitch.android.app') != -1:
-        print('running twitch')
+    elif device.current_activity().find('com.ninegag.android.app') != -1:
+        print('running 9gag')
         scenarioNativeTwitchJ7(device)
     elif device.current_activity().find('com.weather') != -1:
         print('running weather')

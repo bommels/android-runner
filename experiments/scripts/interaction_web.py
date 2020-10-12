@@ -66,6 +66,19 @@ def scenarioWebTwitchJ7(device: Device, isFirstRun):
         swipe(device, 288, 1024, 288, 204)
         tap(device, 416, 306) # Tap some stream
 
+def scenarioWeb9GAGJ7(device: Device, isFirstRun):
+    time.sleep(2) # wait for cookies
+    tap(device, 362, 1045) # Accept cookies
+    tap(device, 612, 1216) # Continue to web app
+    tap(device, 670, 1224) # Remove bottom bar
+    while True:
+        tap(device, 339, 264) # Press Trending
+        swipe(device, 288, 1024, 288, 204)
+        swipe(device, 288, 204, 288, 1024)
+        tap(device, 128, 264) # Press Hot
+        swipe(device, 288, 1024, 288, 204)
+        swipe(device, 288, 204, 288, 1024)
+
 def scenarioWebRedditJ7(device: Device, isFirstRun):
     # tap(device, 40, 1232) # Click away different app pop up (try)
     time.sleep(2) # Wait a little longer for the pop up
@@ -138,8 +151,8 @@ def main(device, *args, **kwargs):
         scenarioWebRedditJ7(device, isFirstRun)
     elif URL in 'https://www.weather.com/':
         scenarioWebWeatherJ7(device, isFirstRun)
-    elif URL in 'https://www.twitch.tv/':
-        scenarioWebTwitchJ7(device, isFirstRun)
+    elif URL in 'https://9gag.com/':
+        scenarioWeb9GAGJ7(device, isFirstRun)
     elif URL in 'https://deliveroo.co.uk/':
         scenarioWebDeliverooJ7(device, isFirstRun)
     elif URL in 'https://www.youtube.com/':

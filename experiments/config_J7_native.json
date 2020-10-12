@@ -4,20 +4,14 @@
     "low-end": {}
   },
   "repetitions": 15,
+  "clear_cache": true,
   "duration": 60000,
   "monkeyrunner_path": "/Users/stijn/Library/Android/sdk/tools/bin/monkeyrunner",
   "systrace_path": "/Users/stijn/Library/Android/sdk/platform-tools/systrace/systrace.py",
   "powerprofile_path": "/Users/stijn/Git/uni/GL/android-runner/experiments/power_profile/J7/power_profile.xml",
   "randomization": true,
   "paths": [
-    "android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk",
-    "android-runner/experiments/apps/com.booking.xapk",
-    "android-runner/experiments/apps/com.deliveroo.orderapp.xapk",
-    "android-runner/experiments/apps/com.reddit.frontpage.xapk",
-    "android-runner/experiments/apps/com.google.android.youtube.xapk",
-    "android-runner/experiments/apps/tv.twitch.android.app.xapk",
-    "android-runner/experiments/apps/com.weather.Weather.apk",
-    "android-runner/experiments/apps/com.inditex.zara.apk"
+    "android-runner/experiments/apps/com.ninegag.android.app.apk"
   ],
   "profilers": {
     "batterystats": {
