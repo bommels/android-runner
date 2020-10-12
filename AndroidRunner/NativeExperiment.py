@@ -45,7 +45,8 @@ class NativeExperiment(Experiment):
 
     def start_profiling(self, device, path, run, *args, **kwargs):
         self.profilers.start_profiling(device, app=self.package)
-        time.sleep(self.duration)
+        # time.sleep(self.duration) why?
+        time.sleep(5)
 
     def after_run(self, device, path, run, *args, **kwargs):
         self.before_close(device, path, run)

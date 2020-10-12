@@ -30,7 +30,7 @@ def scenarioNativeAliExpressJ7(device: Device, isFirstRun):
         write_text(device, 'Shoes') # print('search write')
         tap(device, 661, 1218) # print('search bt
 
-def scenarioNativeBookingJ7(device: Device, isFirstRun):
+def scenarioNativeBookingJ7(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
     if isFirstRun:
         tap(device, 348, 1064) # accept cookies
     tap(device, 42, 85) # Do not login
@@ -88,7 +88,7 @@ def scenarioNativeRedditJ7(device: Device, isFirstRun):
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
 
-def scenarioNativeWeatherJ7(device: Device, isFirstRun):
+def scenarioNativeWeatherJ7(device: Device, isFirstRun):  # FIXME first run also?
     if isFirstRun:
         tap(device, 365, 1160) # Next 
         tap(device, 353, 1064) # I understand
