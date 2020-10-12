@@ -61,9 +61,9 @@ def scenarioWebDeliveroo7pro(device: Device, isFirstRun):
 
 def scenarioWeb9GAG7pro(device: Device, isFirstRun):
     time.sleep(3) # wait for cookies
-    tap(device, 936, 2288) # Accept cookies
-    tap(device, 1219, 2808) # Continue to web app
-    #tap(device, 670, 1224) # Remove bottom bar
+    tap(device, 1242, 2795) # Continue to web app
+    tap(device, 751, 2255) # Accept cookies
+    tap(device, 1350, 2814) # Remove bottom bar
     while True:
         tap(device, 747, 604) # Press Trending
         swipe(device, 576, 2339, 576, 467)
@@ -75,8 +75,7 @@ def scenarioWeb9GAG7pro(device: Device, isFirstRun):
 def scenarioWebReddit7pro(device: Device, isFirstRun):
     time.sleep(3) # Wait a little longer for the pop up
     tap(device, 1147, 2782) # Continue web version
-    # if isFirstRun:
-    #tap(device, 868, 1735) # block notifications
+    tap(device, 832, 1722) # block notifications
     tap(device, 1386, 552) # cookies
     # else:
         # tap(device, 40, 1232) # Click away different app pop up
