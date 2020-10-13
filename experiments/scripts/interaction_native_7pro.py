@@ -19,16 +19,17 @@ def swipe(device: Device, x1: int, y1: int, x2: int, y2: int, sleep = 4, duratio
 
 def scenarioNativeAliExpress7pro(device: Device, isFirstRun):
     # if isFirstRun:
-    tap(device, 362, 946) # Remove pop up
-    tap(device, 281, 93) # print('search')
-    write_text(device, 'Shoes') # print('search write')
-    tap(device, 661, 1218) # print('search btn')
+    time.sleep(4) # wait pop up to dissabear
+    #tap(device, 362, 946) # Remove pop up
+    tap(device, 382, 240) # print('search')
+    write_text(device, 'Desk') # print('search write')
+    tap(device, 1314, 2808) # print('search btn')
     while True: # Keep repeating
         swipe(device, 576, 2339, 576, 467)
-        tap(device, 31, 90) # print('search')
-        tap(device, 560, 93) # clear search
-        write_text(device, 'Shoes') # print('search write')
-        tap(device, 661, 1218) # print('search bt
+        tap(device, 279, 227) # print('search')
+        tap(device, 1125, 227) # clear search
+        write_text(device, 'Desk') # print('search write')
+        tap(device, 1314, 2808) # print('search btn')
 
 def scenarioNativeBooking7pro(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
     if isFirstRun:
@@ -116,22 +117,23 @@ def scenarioNativeYoutube7pro(device: Device, isFirstRun):
 
 def scenarioNativeZara7pro(device: Device, isFirstRun):
     if isFirstRun:
-        tap(device, 432, 1118) # Other region
-        tap(device, 373, 611) # Search region
+        tap(device, 540, 1131) # Other region
+        tap(device, 225, 591) # Search region
         write_text(device, 'United States')
-        tap(device, 382, 884) # Top result
-        tap(device, 778, 1189) # Continue
-        tap(device, 490, 2821) # Don't allow notification
-        tap(device, 711, 1859) # Deny
+        tap(device, 391, 877) # Top result
+        tap(device, 751, 1209) # Continue
+        tap(device, 391, 2814) # Don't allow notification
+        tap(device, 747, 1865) # Deny
     while True:
-        tap(device, 117, 2853) # Search
-        tap(device, 369, 234) # Search bar focus
+        tap(device, 130, 2853) # Search
+        tap(device, 292, 240) # Search bar focus
         write_text(device, 'Shoes')
-        tap(device, 1300, 2801) # Keyboard search
+        tap(device, 1323, 2814) # Keyboard search
+        time.sleep(1) # wait 
         swipe(device, 576, 2339, 576, 467)
-        tap(device, 391, 1924) # Click on shoe
-        tap(device, 121, 247) # Back cross
-        tap(device, 90, 227) # Clear search bar input 
+        tap(device, 337, 923) # Click on shoe
+        tap(device, 126, 247) # Back cross
+        tap(device, 1305, 221) # Clear search bar input 
 
 def main(device, *args, **kwargs):
     # FIXME takes for ever to get here
@@ -156,7 +158,7 @@ def main(device, *args, **kwargs):
     elif device.current_activity().find('com.ninegag.android.app') != -1:
         print('running 9gag')
         scenarioNative9GAG7pro(device, isFirstRun)
-    elif device.current_activity().find('com.weather.Weather') != -1:
+    elif device.current_activity().find('com.weather') != -1:
         print('running weather')
         scenarioNativeWeather7pro(device, isFirstRun)
     elif device.current_activity().find('com.google.android.youtube') != -1:
