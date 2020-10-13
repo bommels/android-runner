@@ -126,7 +126,7 @@ def scenarioNativeZara7pro(device: Device, isFirstRun):
         tap(device, 751, 1209) # Continue
         tap(device, 391, 2814) # Don't allow notification
         # tap(device, 747, 1865) # Deny
-        tap(device, 130, 2853) # Search
+    tap(device, 130, 2853) # Search
     while True:
         tap(device, 292, 240) # Search bar focus
         write_text(device, 'Shoes')
