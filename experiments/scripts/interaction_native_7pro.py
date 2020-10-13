@@ -118,13 +118,13 @@ def scenarioNativeYoutube7pro(device: Device, isFirstRun):
         tap(device, 225, 221) # Return to youtube home page
 
 def scenarioNativeZara7pro(device: Device, isFirstRun):
-    if isFirstRun:
-        tap(device, 540, 1131) # Other region
-        tap(device, 225, 591) # Search region
-        write_text(device, 'United States')
-        tap(device, 391, 877) # Top result
-        tap(device, 751, 1209) # Continue
-        tap(device, 391, 2814) # Don't allow notification
+    #if isFirstRun:
+    tap(device, 540, 1131) # Other region
+    tap(device, 225, 591) # Search region
+    write_text(device, 'United States')
+    tap(device, 391, 877) # Top result
+    tap(device, 751, 1209) # Continue
+    tap(device, 391, 2814) # Don't allow notification
         # tap(device, 747, 1865) # Deny
     tap(device, 130, 2853) # Search
     while True:
