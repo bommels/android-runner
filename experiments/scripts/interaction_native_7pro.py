@@ -52,7 +52,8 @@ def scenarioNativeBooking7pro(device: Device, isFirstRun): # FIXME not taking th
 
 def scenarioNativeDeliveroo7pro(device: Device, isFirstRun):
     if isFirstRun:
-        tap(device, 715, 1859) # Deny location
+        # tap(device, 715, 1859) # Deny location
+        tap(device, 877, 1729) # no thanks location service
         tap(device, 1359, 221) # Search location btn
         write_text(device, 'Amsterdam')
         tap(device, 486, 468) # Top result
