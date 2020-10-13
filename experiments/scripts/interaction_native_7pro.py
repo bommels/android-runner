@@ -52,13 +52,13 @@ def scenarioNativeBooking7pro(device: Device, isFirstRun): # FIXME not taking th
 
 def scenarioNativeDeliveroo7pro(device: Device, isFirstRun):
     if isFirstRun:
-        tap(device, 760, 1859) # Deny location
-        tap(device, 1377, 253) # Search location btn
+        tap(device, 715, 1859) # Deny location
+        tap(device, 1359, 221) # Search location btn
         write_text(device, 'Amsterdam')
-        tap(device, 409, 474) # Top result
-        tap(device, 774, 2821) # Confirm location
-        tap(device, 1350, 247) # Skip
-        tap(device, 711, 2125) # Ok
+        tap(device, 486, 468) # Top result
+        tap(device, 751, 2782) # Confirm location
+        tap(device, 1341, 227) # Skip
+        tap(device, 738, 2119) # Ok
     while True:
         swipe(device, 576, 2339, 576, 467)
         swipe(device, 576, 467, 576, 2339)
@@ -91,17 +91,17 @@ def scenarioNativeReddit7pro(device: Device, isFirstRun):
 
 def scenarioNativeWeather7pro(device: Device, isFirstRun):  # FIXME first run also?
     if isFirstRun:
-        tap(device, 756, 2678) # Next 
-        tap(device, 706, 2678) # I understand
-        tap(device, 733, 2522) # I understand
-        tap(device, 729, 1969) # Deny
+        tap(device, 738, 2691) # Next 
+        tap(device, 720, 2496) # I understand
+        tap(device, 738, 2509) # I understand
+        tap(device, 738, 1943) # Deny
     while True:
         write_text(device, 'Amsterdam')
-        tap(device, 1318, 2808) # Search
-        tap(device, 670, 572) # Top result
+        tap(device, 1305, 2821) # Search
+        tap(device, 513, 604) # Top result
         swipe(device, 576, 2339, 576, 467) # down
         swipe(device, 576, 467, 576, 2339) # up
-        tap(device, 144, 221) # search top
+        tap(device, 391, 227) # search top
 
 def scenarioNativeYoutube7pro(device: Device, isFirstRun):
     # if isFirstRun:
@@ -124,13 +124,13 @@ def scenarioNativeZara7pro(device: Device, isFirstRun):
         tap(device, 751, 1209) # Continue
         tap(device, 391, 2814) # Don't allow notification
         tap(device, 747, 1865) # Deny
-    while True:
         tap(device, 130, 2853) # Search
+    while True:
         tap(device, 292, 240) # Search bar focus
         write_text(device, 'Shoes')
         tap(device, 1323, 2814) # Keyboard search
         time.sleep(1) # wait 
-        swipe(device, 576, 2339, 576, 467)
+        #swipe(device, 576, 2339, 576, 467)
         tap(device, 337, 923) # Click on shoe
         tap(device, 126, 247) # Back cross
         tap(device, 1305, 221) # Clear search bar input 
