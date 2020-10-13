@@ -31,7 +31,6 @@ def scenarioNativeAliExpress7pro(device: Device, isFirstRun):
         tap(device, 661, 1218) # print('search bt
 
 def scenarioNativeBooking7pro(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
-    print(isFirstRun)
     if isFirstRun:
         tap(device, 1255, 2086) # accept cookies
     tap(device, 99, 221) # Do not login
@@ -52,13 +51,13 @@ def scenarioNativeBooking7pro(device: Device, isFirstRun): # FIXME not taking th
 
 def scenarioNativeDeliveroo7pro(device: Device, isFirstRun):
     if isFirstRun:
-        tap(device, 459, 725) # Deny location
-        tap(device, 672, 93) # Search location btn
+        tap(device, 760, 1859) # Deny location
+        tap(device, 1377, 253) # Search location btn
         write_text(device, 'Amsterdam')
-        tap(device, 193, 194) # Top result
-        tap(device, 369, 1221) # Confirm location
-        tap(device, 659, 90) # Skip
-        tap(device, 351, 994) # Ok
+        tap(device, 409, 474) # Top result
+        tap(device, 774, 2821) # Confirm location
+        tap(device, 1350, 247) # Skip
+        tap(device, 711, 2125) # Ok
     while True:
         swipe(device, 576, 2339, 576, 467)
         swipe(device, 576, 467, 576, 2339)
@@ -66,12 +65,12 @@ def scenarioNativeDeliveroo7pro(device: Device, isFirstRun):
 def scenarioNative9GAG7pro(device: Device, isFirstRun):
     time.sleep(2) # wait for cookies
     if isFirstRun:
-        tap(device, 375, 970) # Consent
+        tap(device, 769, 2170) # Consent
     while True:
-        tap(device, 265, 173) # Press Trending
+        tap(device, 531, 383) # Press Trending
         swipe(device, 576, 2339, 576, 467)
         swipe(device, 576, 467, 576, 2339)
-        tap(device, 85, 181) # Press Hot
+        tap(device, 189, 383) # Press Hot
         swipe(device, 576, 2339, 576, 467)
         swipe(device, 576, 467, 576, 2339)
 
@@ -91,48 +90,48 @@ def scenarioNativeReddit7pro(device: Device, isFirstRun):
 
 def scenarioNativeWeather7pro(device: Device, isFirstRun):  # FIXME first run also?
     if isFirstRun:
-        tap(device, 365, 1160) # Next 
-        tap(device, 353, 1064) # I understand
-        tap(device, 344, 1074) # I understand
-        tap(device, 459, 744) # Deny
+        tap(device, 756, 2678) # Next 
+        tap(device, 706, 2678) # I understand
+        tap(device, 733, 2522) # I understand
+        tap(device, 729, 1969) # Deny
     while True:
         write_text(device, 'Amsterdam')
-        tap(device, 657, 1216) # Search
-        tap(device, 263, 242) # Top result
+        tap(device, 1318, 2808) # Search
+        tap(device, 670, 572) # Top result
         swipe(device, 576, 2339, 576, 467) # down
         swipe(device, 576, 467, 576, 2339) # up
-        tap(device, 67, 82) # search top
+        tap(device, 144, 221) # search top
 
 def scenarioNativeYoutube7pro(device: Device, isFirstRun):
     # if isFirstRun:
     while True:
         swipe(device, 576, 2339, 576, 467)
         swipe(device, 576, 467, 576, 2339)
-        tap(device, 213, 1240) # Explore
-        tap(device, 200, 173) # Trending
-        tap(device, 288, 448) # First video
-        swipe(device, 346, 250, 364, 1124)
-        tap(device, 672, 1144) # Cancel video
-        tap(device, 42, 85) # Return to youtube home page
+        tap(device, 418, 2801) # Explore
+        tap(device, 346, 390) # Trending
+        tap(device, 774, 877) # First video
+        swipe(device, 576, 467, 576, 2339)
+        tap(device, 1363, 2665) # Cancel video
+        tap(device, 225, 221) # Return to youtube home page
 
 def scenarioNativeZara7pro(device: Device, isFirstRun):
     if isFirstRun:
-        tap(device, 285, 528) # Other region
-        tap(device, 204, 280) # Search region
+        tap(device, 432, 1118) # Other region
+        tap(device, 373, 611) # Search region
         write_text(device, 'United States')
-        tap(device, 285, 445) # Top result
-        tap(device, 407, 586) # Continue
-        tap(device, 227, 1210) # Don't allow notification
-        # tap(device, 450, 744) # Deny
+        tap(device, 382, 884) # Top result
+        tap(device, 778, 1189) # Continue
+        tap(device, 490, 2821) # Don't allow notification
+        tap(device, 711, 1859) # Deny
     while True:
-        tap(device, 56, 1234) # Search
-        tap(device, 173, 85) # Search bar focus
+        tap(device, 117, 2853) # Search
+        tap(device, 369, 234) # Search bar focus
         write_text(device, 'Shoes')
-        tap(device, 650, 1208) # Keyboard search
-        swipe(device, 288, 1204, 288, 204) 
-        tap(device, 162, 389) # Click on shoe
-        tap(device, 56, 106) # Back cross
-        tap(device, 49, 93) # Clear search bar input 
+        tap(device, 1300, 2801) # Keyboard search
+        swipe(device, 576, 2339, 576, 467)
+        tap(device, 391, 1924) # Click on shoe
+        tap(device, 121, 247) # Back cross
+        tap(device, 90, 227) # Clear search bar input 
 
 def main(device, *args, **kwargs):
     # FIXME takes for ever to get here
