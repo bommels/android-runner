@@ -32,8 +32,8 @@ def scenarioNativeAliExpress7pro(device: Device, isFirstRun):
         tap(device, 1314, 2808) # print('search btn')
 
 def scenarioNativeBooking7pro(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
-    if isFirstRun:
-        tap(device, 1255, 2086) # accept cookies
+    #if isFirstRun:
+    tap(device, 1255, 2086) # accept cookies
     tap(device, 99, 221) # Do not login
     tap(device, 769, 1352) # Search bar 
     write_text(device, 'Amsterdam')
@@ -65,9 +65,9 @@ def scenarioNativeDeliveroo7pro(device: Device, isFirstRun):
         swipe(device, 576, 467, 576, 2339)
 
 def scenarioNative9GAG7pro(device: Device, isFirstRun):
-    time.sleep(2) # wait for cookies
-    if isFirstRun:
-        tap(device, 769, 2170) # Consent
+    #time.sleep(2) # wait for cookies
+    #if isFirstRun:
+    tap(device, 769, 2170) # Consent
     while True:
         tap(device, 531, 383) # Press Trending
         swipe(device, 576, 2339, 576, 467)
@@ -77,8 +77,8 @@ def scenarioNative9GAG7pro(device: Device, isFirstRun):
         swipe(device, 576, 467, 576, 2339)
 
 def scenarioNativeReddit7pro(device: Device, isFirstRun):
-    if isFirstRun:
-        tap(device, 702, 2860) # continue without account
+    #if isFirstRun:
+    tap(device, 702, 2860) # continue without account
     while True:
         tap(device, 270, 591) # Press hot
         tap(device, 243, 2470) # Change top
