@@ -11,8 +11,7 @@
   "powerprofile_path": "/home/lucien/Desktop/green-lab/power_profile.xml",
   "randomization": true,
   "paths": [
-    "android-runner/experiments/apps/com.booking.xapk",
-    "android-runner/experiments/apps/com.reddit.frontpage.xapk"
+    "android-runner/experiments/apps/com.booking.xapk"
   ],
   "profilers": {
     "batterystats": {

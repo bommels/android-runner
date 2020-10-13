@@ -33,7 +33,7 @@ def scenarioNativeAliExpress7pro(device: Device, isFirstRun):
 def scenarioNativeBooking7pro(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
     print(isFirstRun)
     if isFirstRun:
-        tap(device, 742, 2470) # accept cookies
+        tap(device, 1255, 2086) # accept cookies
     tap(device, 99, 221) # Do not login
     tap(device, 769, 1352) # Search bar 
     write_text(device, 'Amsterdam')
