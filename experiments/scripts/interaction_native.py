@@ -123,7 +123,7 @@ def scenarioNativeZaraJ7(device: Device, isFirstRun):
         tap(device, 407, 586) # Continue
         tap(device, 227, 1210) # Don't allow notification
         # tap(device, 450, 744) # Deny
-    while isProgressFileNotAvailble():
+    while True:
         tap(device, 56, 1234) # Search
         tap(device, 173, 85) # Search bar focus
         write_text(device, 'Shoes')

@@ -4,23 +4,23 @@
     "high-end": {}
   },
   "repetitions": 1,
-  "duration": 60000,
+  "clear_cache": true,
+  "duration": 20000,
   "monkeyrunner_path": "/home/lucien/Android/Sdk/tools/bin/monkeyrunner",
   "systrace_path": "/home/lucien/Android/Sdk/platform-tools/systrace/systrace.py",
   "powerprofile_path": "/home/lucien/Desktop/green-lab/power_profile.xml",
   "randomization": true,
   "paths": [
-    "android-runner/experiments/apps/com.alibaba.alieexpresshd.xapk",
     "android-runner/experiments/apps/com.booking.xapk",
-    "android-runner/experiments/apps/com.deliveroo.orderapp.xapk",
-    "android-runner/experiments/apps/com.google.android.youtube.xapk",
-    "android-runner/experiments/apps/com.reddit.frontpage.xapk",
-    "android-runner/experiments/apps/com.weather.Weather.apk",
-    "android-runner/experiments/apps/com.ninegag.android.app.apk"
+    "android-runner/experiments/apps/com.reddit.frontpage.xapk"
   ],
   "profilers": {
     "batterystats": {
-      "cleanup": true 
+      "cleanup": true,
+      "subject_aggregation": "default",
+      "experiment_aggregation": "default",
+      "enable_systrace_parsing": false,
+      "python2_path": "python2"
     }
   },
   "scripts": {
