@@ -91,11 +91,11 @@ def scenarioNativeReddit7pro(device: Device, isFirstRun):
         swipe(device, 576, 467, 576, 2339)
 
 def scenarioNativeWeather7pro(device: Device, isFirstRun):  # FIXME first run also?
-    if isFirstRun:
-        tap(device, 738, 2691) # Next 
-        tap(device, 720, 2496) # I understand
-        tap(device, 738, 2509) # I understand
-        tap(device, 877, 1729) # no thanks location service
+    #if isFirstRun:
+    tap(device, 738, 2691) # Next 
+    tap(device, 720, 2496) # I understand
+    tap(device, 738, 2509) # I understand
+    tap(device, 877, 1729) # no thanks location service
         # tap(device, 738, 1943) # Deny
     while True:
         write_text(device, 'Amsterdam')
