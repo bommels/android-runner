@@ -156,7 +156,7 @@ def main(device, *args, **kwargs):
     elif device.current_activity().find('com.ninegag.android.app') != -1:
         print('running 9gag')
         scenarioNative9GAG7pro(device, isFirstRun)
-    elif device.current_activity().find('com.weather') != -1:
+    elif device.current_activity().find('com.weather.Weather') != -1:
         print('running weather')
         scenarioNativeWeather7pro(device, isFirstRun)
     elif device.current_activity().find('com.google.android.youtube') != -1:
