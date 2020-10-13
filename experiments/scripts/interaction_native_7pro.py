@@ -95,7 +95,8 @@ def scenarioNativeWeather7pro(device: Device, isFirstRun):  # FIXME first run al
         tap(device, 738, 2691) # Next 
         tap(device, 720, 2496) # I understand
         tap(device, 738, 2509) # I understand
-        tap(device, 738, 1943) # Deny
+        tap(device, 877, 1729) # no thanks location service
+        # tap(device, 738, 1943) # Deny
     while True:
         write_text(device, 'Amsterdam')
         tap(device, 1305, 2821) # Search
@@ -118,20 +119,20 @@ def scenarioNativeYoutube7pro(device: Device, isFirstRun):
 
 def scenarioNativeZara7pro(device: Device, isFirstRun):
     if isFirstRun:
-        tap(device, 540, 1131) # Other region
-        tap(device, 225, 591) # Search region
-        write_text(device, 'United States')
-        tap(device, 391, 877) # Top result
-        tap(device, 751, 1209) # Continue
-        tap(device, 391, 2814) # Don't allow notification
-        tap(device, 747, 1865) # Deny
+        # tap(device, 540, 1131) # Other region
+        # tap(device, 225, 591) # Search region
+        # write_text(device, 'United States')
+        # tap(device, 391, 877) # Top result
+        # tap(device, 751, 1209) # Continue
+        # tap(device, 391, 2814) # Don't allow notification
+        # tap(device, 747, 1865) # Deny
         tap(device, 130, 2853) # Search
     while True:
         tap(device, 292, 240) # Search bar focus
         write_text(device, 'Shoes')
         tap(device, 1323, 2814) # Keyboard search
-        time.sleep(1) # wait 
-        #swipe(device, 576, 2339, 576, 467)
+        
+        swipe(device, 576, 2339, 576, 467)
         tap(device, 337, 923) # Click on shoe
         tap(device, 126, 247) # Back cross
         tap(device, 1305, 221) # Clear search bar input 
