@@ -1,0 +1,179 @@
+---
+title: "App vs Web App"
+author: "Lucien Martijn, Stijn Meijerink, Daniël Hana, Terry Bommels, Dion David Haneveld"
+date: "23 October 2020"
+output: pdf_document
+highlight: tango
+---
+
+```{r, results='hide'}
+# Include libraries used in lectures
+library(tidyverse)
+library(car)
+library(bestNormalize)
+library(ggplot2)
+library(effsize)
+# D no ouput
+```
+
+First we have to read in the data. There were four seperate runs we have to 'stitch' together the aggregated results.
+```{r}
+data <- read.csv('~/Git/uni/GL/android-runner/Data/EXAMPLE-Aggregated_Results_Batterystats.csv', sep = ';')
+data <- tibble(data)
+
+as.factor(data$device)
+as.factor(data$app_type)
+as.factor(data$subject)
+as.numeric(data$batterystats_Joule_calculated)
+```
+
+We also want to be sure that the data is valid, thus not having a too high standard deviation between subjects and treatments themselves.
+```{r}
+# Get all joule_results.*.csv
+csv_paths <- list.files(path = './Data/', 
+                        recursive = TRUE, 
+                        pattern = '^Joule.*\\.csv', 
+                        full.names = TRUE)
+
+app_data <- csv_paths %>%
+  lapply(read_csv) %>%
+  bind_rows
+
+app_data['app'] <- csv_paths %>%
+  strsplit('-', fixed = TRUE) %>%
+  rapply(nth, n=4) %>%
+  factor
+
+app_data['device'] <- csv_paths %>%
+  strsplit('-', fixed = TRUE) %>%
+  rapply(nth, n=1) %>%
+  strsplit('/', fixed = TRUE) %>%
+  rapply(nth, n=6) %>%
+  factor
+
+# TODO include app_data['app_type']
+
+tail(app_data)
+```
+
+As we can see ....
+
+# 1. Descriptive statistics
+```{r}
+summarize_data <- function(data){
+  data %>%
+  group_by(app) %>%
+  summarize(n = n(), 
+            mean = mean(Joule_calculated),
+            median = median(Joule_calculated),
+            sd = sd(Joule_calculated),
+            IQR = IQR(Joule_calculated),
+            min = min(Joule_calculated),
+            max = max(Joule_calculated))
+}
+
+# Grouped by app type, so not split based on device tier
+summarize_data(app_data)
+
+# Summary for high-end device
+high_end_app_data <- app_data %>%
+  filter(device == 'high')
+summarize_data(high_end_app_data)
+
+# Summary for low-end device
+low_end_app_data <- app_data %>%
+  filter(device == 'low')
+summarize_data(low_end_app_data)
+
+```
+
+```{r}
+# For all devices
+app_data$Joule_calculated %>%
+  hist(breaks = 25, main = "Distribution of Joule_calculated for both device tiers and app types")
+
+# For high-end
+high_end_app_data$Joule_calculated %>%
+  hist(breaks = 25, main = "Distribution of Joule_calculated for high-end with all app types")
+# For low-end
+low_end_app_data$Joule_calculated %>%
+  hist(breaks = 25, main = "Distribution of Joule_calculated for low-end with all app types")
+```
+
+
+```{r}
+check_normality <- function(data){
+  plot(density(data))
+  car::qqPlot(data)
+  shapiro.test(data)
+}
+data$batterystats_Joule_calculated %>%
+  check_normality
+```
+
+
+# 2. Select statistical test
+Now that assessed normality we can select the statistical tests.
+
+For RQ1 the hyptohesis were formulated as follows:
+$H1_0 \tau_{web} = \tau_{native}$
+$H1_1 \tau_{web} \neq \tau_{native}$
+For RQ2 the hyptohesis were formulated as follows:
+$H2_0 : \tau\beta_{ij} = 0\forall i,j$
+$H2_1 : \exists(ij)|\tau\beta_{ij} \neq 0$
+
+Both hyptotheses can be answered with a two way-anova if the following assumptions are met. The dependent variable is continous (energy consumption in joules). The samples are obtained indepently. 
+
+The data follows a normal distribution as showed in the Descriptive statistics chapter.
+
+Residuals follow normal distribution:
+```{r}
+# Two way ANOVA
+data.two_way_aov <- aov(data$batterystats_Joule_calculated ~ data$app_type * data$device)
+
+qqPlot(residuals(data.two_way_aov))
+```
+
+Homoscedasticity (varaiance between groups should be equal) check:
+```{r}
+# Not too sure? leveneTest(x ~ y, data = myData) in slides
+leveneTest(data$batterystats_Joule_calculated, data$app_type)
+```
+
+# 3. Hypothesis testing
+```{r}
+summary(data.two_way_aov)
+# TODO do we need to do p-value corrections?
+
+# TODO do we need Tukey's test
+postHoc <- TukeyHSD(x = data.two_way_aov, 'data$app_type', conf.level = 0.95)
+plot(postHoc)
+postHoc
+```
+
+# 4. Effect size calculation
+Now that we obtained our p-values we want to know what the effect size is. As shown before the results are significant. However the question remains is the difference in energy consumption in practice big enough to make a valid choice for the user and developer (described in the paper). 
+As we used an ANOVA we use Cohen\'s measure.
+```{r}
+# This text above is only true when p-value is significant
+
+# FIXME separate on device type?
+
+# Get all batterystats_Joule_calculated where app_type == web
+treatmentWeb <- data %>%
+  filter(app_type == 'web')
+
+# Get all batterystats_Joule_calculated where app_type == native
+treatmentNative <- data %>%
+  filter(app_type == 'native')
+
+cohen.d(treatmentWeb$batterystats_Joule_calculated, treatmentNative$batterystats_Joule_calculated, paired=FALSE, pooled=FALSE)
+# FIXME is paired false?
+```
+
+# 5. Power analysis (optional)
+```{r}
+
+```
+
+

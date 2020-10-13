@@ -1,0 +1,103 @@
+<experiment>
+  <configHash>b06bb8620360a32c416b64edd5b42937</configHash>
+  <outputDir>/Users/stijn/Git/uni/GL/android-runner/experiments/output/2020.10.09_163059/</outputDir>
+  <runsToRun/>
+  <runsDone>
+    <run runId="5">
+      <device>low-end</device>
+      <path>https://deliveroo.co.uk/</path>
+      <browser>chrome</browser>
+      <runCount>2</runCount>
+    </run>
+    <run runId="13">
+      <device>low-end</device>
+      <path>https://www.youtube.com/</path>
+      <browser>chrome</browser>
+      <runCount>2</runCount>
+    </run>
+    <run runId="11">
+      <device>low-end</device>
+      <path>https://www.twitch.tv/</path>
+      <browser>chrome</browser>
+      <runCount>2</runCount>
+    </run>
+    <run runId="9">
+      <device>low-end</device>
+      <path>https://www.weather.com/</path>
+      <browser>chrome</browser>
+      <runCount>2</runCount>
+    </run>
+    <run runId="4">
+      <device>low-end</device>
+      <path>https://deliveroo.co.uk/</path>
+      <browser>chrome</browser>
+      <runCount>1</runCount>
+    </run>
+    <run runId="10">
+      <device>low-end</device>
+      <path>https://www.twitch.tv/</path>
+      <browser>chrome</browser>
+      <runCount>1</runCount>
+    </run>
+    <run runId="0">
+      <device>low-end</device>
+      <path>https://www.aliexpress.com/</path>
+      <browser>chrome</browser>
+      <runCount>1</runCount>
+    </run>
+    <run runId="15">
+      <device>low-end</device>
+      <path>https://www.zara.com/us/</path>
+      <browser>chrome</browser>
+      <runCount>2</runCount>
+    </run>
+    <run runId="12">
+      <device>low-end</device>
+      <path>https://www.youtube.com/</path>
+      <browser>chrome</browser>
+      <runCount>1</runCount>
+    </run>
+    <run runId="14">
+      <device>low-end</device>
+      <path>https://www.zara.com/us/</path>
+      <browser>chrome</browser>
+      <runCount>1</runCount>
+    </run>
+    <run runId="1">
+      <device>low-end</device>
+      <path>https://www.aliexpress.com/</path>
+      <browser>chrome</browser>
+      <runCount>2</runCount>
+    </run>
+    <run runId="6">
+      <device>low-end</device>
+      <path>https://www.reddit.com/</path>
+      <browser>chrome</browser>
+      <runCount>1</runCount>
+    </run>
+    <run runId="2">
+      <device>low-end</device>
+      <path>https://www.booking.com/</path>
+      <browser>chrome</browser>
+      <runCount>1</runCount>
+    </run>
+    <run runId="3">
+      <device>low-end</device>
+      <path>https://www.booking.com/</path>
+      <browser>chrome</browser>
+      <runCount>2</runCount>
+    </run>
+    <run runId="7">
+      <device>low-end</device>
+      <path>https://www.reddit.com/</path>
+      <browser>chrome</browser>
+      <runCount>2</runCount>
+    </run>
+    <run runId="8">
+      <device>low-end</device>
+      <path>https://www.weather.com/</path>
+      <browser>chrome</browser>
+      <runCount>1</runCount>
+    </run>
+  </runsDone>
+</experiment>
