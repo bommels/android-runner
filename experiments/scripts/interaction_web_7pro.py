@@ -73,7 +73,7 @@ def scenarioWeb9GAG7pro(device: Device, isFirstRun):
         swipe(device, 576, 467, 576, 2339)
 
 def scenarioWebReddit7pro(device: Device, isFirstRun):
-    #time.sleep(3) # Wait a little longer for the pop up
+    time.sleep(2) # Wait a little longer for the pop up
     tap(device, 1147, 2782) # Continue web version
     tap(device, 864, 1735) # block notifications
     tap(device, 1386, 572) # cookies
