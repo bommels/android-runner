@@ -18,6 +18,7 @@ library(effsize)
 
 First we have to read in the data. There were four seperate runs we have to 'stitch' together the aggregated results.
 ```{r}
+# First aggregated read, do we need it?
 data <- read.csv('~/Git/uni/GL/android-runner/Data/EXAMPLE-Aggregated_Results_Batterystats.csv', sep = ';')
 data <- tibble(data)
 
@@ -34,15 +35,17 @@ csv_paths <- list.files(path = './Data/',
                         recursive = TRUE, 
                         pattern = '^Joule.*\\.csv', 
                         full.names = TRUE)
-
+# read all csv
 app_data <- csv_paths %>%
   lapply(read_csv) %>%
   bind_rows
 
+# Find web apps based on www in their path
 web_apps <- csv_paths %>%
   strsplit('-', fixed = TRUE) %>%
   rapply(nth, n=3) %>%
   str_detect(., 'www')
+# Split into web and native app_type
 temp_list <- list(length(web_apps))
 for(i in 1:length(web_apps)){
   if(web_apps[i]){
@@ -52,53 +55,55 @@ for(i in 1:length(web_apps)){
   }
 }
 app_data['app_type'] <- unlist(temp_list)
-as.factor(app_data$app_type)
+app_data$app_type <- as.factor(app_data$app_type)
 
+# Add paths to data frame for reading out the correct names later
 app_data['path'] = csv_paths
-tibble(app_data)
+# tibble(app_data)
 
+# Filter on https-www to get the web apps again
 web_app_paths <- app_data %>%
   filter(str_detect(path, '(.*https-www.*)'))
+# Split paths to get the correct name
 web_app_names <- web_app_paths$path %>% 
   strsplit('-', TRUE) %>%
   rapply(nth, n=4)
 
+# Filter on android-runner-experiments to get the native apps again
 native_app_paths <- app_data %>%
   filter(str_detect(path, '(.*android-runner-experiments.*)'))
 native_app_names <- native_app_paths$path %>% 
   strsplit('-', TRUE) %>%
   rapply(nth, n=7)
 
+# Combine web app names and native app names and add them to the dataframe
 app_names <- c(web_app_names, native_app_names)
 app_data['app'] <- app_names 
 
-#alibaba = aliexpress
-app_data %>%
-  filter(app == 'alibaba') %>%
-  mutate(app  = 'aliexpress')
-# web
-# web_app <- csv_paths_web %>%
-  # filter(app_type == 'web')
-  # strsplit('-', fixed = TRUE) %>%
-  # rapply(nth, n=4) %>%
-  # factor
+updateMisalignedAppNames <- function(app){
+  if(app == 'alibaba'){
+    app = 'aliexpress'
+  } else {
+    app = app
+  }
+}
 
-# native
-# app_data['app'] <- csv_paths_native %>%
-  # filter(app_type == 'native')
-  # strsplit('-', fixed = TRUE) %>%
-  # rapply(nth, n=7) %>%
-  # factor
+# The native app name for aliexpress is Alibaba so we update it to aliexpress
+updatedAppNames <- app_data$app %>%
+  lapply(updateMisalignedAppNames)
 
+# Add the updated names to the dataframe again
+app_data['app'] <- unlist(updatedAppNames)
 
-# app_data['device'] <- csv_paths %>%
-  # strsplit('-', fixed = TRUE) %>%
-  # rapply(nth, n=1) %>%
-  # strsplit('/', fixed = TRUE) %>%
-  # rapply(nth, n=6) %>%
-  # factor
+# Based on the paths get the device tier and add it to the dataframe
+app_data['device'] <- csv_paths %>%
+  strsplit('-', fixed = TRUE) %>%
+  rapply(nth, n=1) %>%
+  strsplit('/', fixed = TRUE) %>%
+  rapply(nth, n=6) %>%
+  factor
 
-
+# Show a part of the data frame
 tail(app_data)
 ```
 
@@ -153,7 +158,7 @@ check_normality <- function(data){
   car::qqPlot(data)
   shapiro.test(data)
 }
-data$batterystats_Joule_calculated %>%
+app_data$Joule_calculated %>%
   check_normality
 ```
 
@@ -175,24 +180,24 @@ The data follows a normal distribution as showed in the Descriptive statistics c
 Residuals follow normal distribution:
 ```{r}
 # Two way ANOVA
-data.two_way_aov <- aov(data$batterystats_Joule_calculated ~ data$app_type * data$device)
+app_data.two_way_aov <- aov(app_data$Joule_calculated ~ app_data$app_type * app_data$device)
 
-qqPlot(residuals(data.two_way_aov))
+qqPlot(residuals(app_data.two_way_aov))
 ```
 
 Homoscedasticity (varaiance between groups should be equal) check:
 ```{r}
 # Not too sure? leveneTest(x ~ y, data = myData) in slides
-leveneTest(data$batterystats_Joule_calculated, data$app_type)
+leveneTest(app_data$Joule_calculated, app_data$app_type)
 ```
 
 # 3. Hypothesis testing
 ```{r}
-summary(data.two_way_aov)
+summary(app_data.two_way_aov)
 # TODO do we need to do p-value corrections?
 
-# TODO do we need Tukey's test
-postHoc <- TukeyHSD(x = data.two_way_aov, 'data$app_type', conf.level = 0.95)
+# TODO do we need Tukey's test, this isn't correct with example data at least
+postHoc <- TukeyHSD(x = app_data.two_way_aov, 'app_data$app_type', conf.level = 0.95)
 plot(postHoc)
 postHoc
 ```
@@ -206,14 +211,15 @@ As we used an ANOVA we use Cohen\'s measure.
 # FIXME separate on device type?
 
 # Get all batterystats_Joule_calculated where app_type == web
-treatmentWeb <- data %>%
+treatmentWeb <- app_data %>%
   filter(app_type == 'web')
 
 # Get all batterystats_Joule_calculated where app_type == native
-treatmentNative <- data %>%
+treatmentNative <- app_data %>%
   filter(app_type == 'native')
 
-cohen.d(treatmentWeb$batterystats_Joule_calculated, treatmentNative$batterystats_Joule_calculated, paired=FALSE, pooled=FALSE)
+# FIXME doesn't work with example data yet
+cohen.d(treatmentWeb$Joule_calculated, treatmentNative$Joule_calculated, paired=FALSE, pooled=FALSE)
 # FIXME is paired false?
 ```
 
