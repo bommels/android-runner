@@ -73,10 +73,10 @@ def scenarioWeb9GAG7pro(device: Device, isFirstRun):
         swipe(device, 576, 467, 576, 2339)
 
 def scenarioWebReddit7pro(device: Device, isFirstRun):
-    time.sleep(3) # Wait a little longer for the pop up
+    #time.sleep(3) # Wait a little longer for the pop up
     tap(device, 1147, 2782) # Continue web version
-    tap(device, 832, 1722) # block notifications
-    tap(device, 1386, 552) # cookies
+    tap(device, 864, 1735) # block notifications
+    tap(device, 1386, 572) # cookies
     # else:
         # tap(device, 40, 1232) # Click away different app pop up
     # tap(device, 625, 912) # Click first meme --> can be a link to some different website
