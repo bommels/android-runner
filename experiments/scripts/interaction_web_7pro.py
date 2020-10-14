@@ -125,10 +125,10 @@ def scenarioWebZara7pro(device: Device, isFirstRun):
     while True:
         write_text(device, 'Shoes')
         tap(device, 153, 572) # Top result
-        swipe(device, 288, 1204, 288, 204) 
-        tap(device, 427, 929) # Click on shoe
-        time.sleep(3) # wait for loading shoe
+        # swipe(device, 288, 1204, 288, 204) 
+        tap(device, 351, 1293) # Click on shoe
         tap(device, 94, 416) # Back arrow
+        time.sleep(3) # wait
         tap(device, 1341, 409) # Clear search bar input 
 
 def main(device, *args, **kwargs):
