@@ -73,8 +73,8 @@ def scenarioWeb9GAG7pro(device: Device, isFirstRun):
         swipe(device, 576, 467, 576, 2339)
 
 def scenarioWebReddit7pro(device: Device, isFirstRun):
-    logger.info('sleep 2s')
-    time.sleep(2) # Wait a little longer for the pop up
+    logger.info('sleep 4s')
+    time.sleep(4) # Wait a little longer for the pop up
     logger.info('continue web vers')
     tap(device, 1147, 2782) # Continue web version
     logger.info('block notifications')
