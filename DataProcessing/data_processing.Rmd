@@ -39,19 +39,65 @@ app_data <- csv_paths %>%
   lapply(read_csv) %>%
   bind_rows
 
-app_data['app'] <- csv_paths %>%
+web_apps <- csv_paths %>%
   strsplit('-', fixed = TRUE) %>%
-  rapply(nth, n=4) %>%
-  factor
+  rapply(nth, n=3) %>%
+  str_detect(., 'www')
+temp_list <- list(length(web_apps))
+for(i in 1:length(web_apps)){
+  if(web_apps[i]){
+    temp_list[i] = 'web'
+  } else{
+    temp_list[i] = 'native'
+  }
+}
+app_data['app_type'] <- unlist(temp_list)
+as.factor(app_data$app_type)
 
-app_data['device'] <- csv_paths %>%
-  strsplit('-', fixed = TRUE) %>%
-  rapply(nth, n=1) %>%
-  strsplit('/', fixed = TRUE) %>%
-  rapply(nth, n=6) %>%
-  factor
+app_data['path'] = csv_paths
+tibble(app_data)
 
-# TODO include app_data['app_type']
+web_app_paths <- app_data %>%
+  filter(str_detect(path, '(.*https-www.*)'))
+web_app_names <- web_app_paths$path %>% 
+  strsplit('-', TRUE) %>%
+  rapply(nth, n=4)
+
+native_app_paths <- app_data %>%
+  filter(str_detect(path, '(.*android-runner-experiments.*)'))
+native_app_names <- native_app_paths$path %>% 
+  strsplit('-', TRUE) %>%
+  rapply(nth, n=7)
+
+app_names <- c(web_app_names, native_app_names)
+app_data['app'] <- app_names 
+
+#alibaba = aliexpress
+app_data %>%
+  filter(app == 'alibaba') %>%
+  mutate(app  = 'aliexpress')
+# web
+# web_app <- csv_paths_web %>%
+  # filter(app_type == 'web')
+  # strsplit('-', fixed = TRUE) %>%
+  # rapply(nth, n=4) %>%
+  # factor
+
+# native
+# app_data['app'] <- csv_paths_native %>%
+  # filter(app_type == 'native')
+  # strsplit('-', fixed = TRUE) %>%
+  # rapply(nth, n=7) %>%
+  # factor
+
+
+# app_data['device'] <- csv_paths %>%
+  # strsplit('-', fixed = TRUE) %>%
+  # rapply(nth, n=1) %>%
+  # strsplit('/', fixed = TRUE) %>%
+  # rapply(nth, n=6) %>%
+  # factor
+
 
 tail(app_data)
 ```

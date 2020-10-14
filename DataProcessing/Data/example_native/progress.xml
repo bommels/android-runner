@@ -1,0 +1,83 @@
+<experiment>
+  <configHash>dbef2c8e19c2a218a5e6d7239d877f91</configHash>
+  <outputDir>/Users/stijn/Git/uni/GL/android-runner/experiments/output/2020.10.12_130704/</outputDir>
+  <runsToRun>
+    <run runId="0">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>1</runCount>
+    </run>
+    <run runId="1">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>2</runCount>
+    </run>
+    <run runId="2">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>3</runCount>
+    </run>
+    <run runId="3">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>4</runCount>
+    </run>
+    <run runId="4">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>5</runCount>
+    </run>
+    <run runId="5">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>6</runCount>
+    </run>
+    <run runId="6">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>7</runCount>
+    </run>
+    <run runId="7">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>8</runCount>
+    </run>
+    <run runId="8">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>9</runCount>
+    </run>
+    <run runId="9">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>10</runCount>
+    </run>
+    <run runId="10">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>11</runCount>
+    </run>
+    <run runId="11">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>12</runCount>
+    </run>
+    <run runId="12">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>13</runCount>
+    </run>
+    <run runId="13">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>14</runCount>
+    </run>
+  </runsToRun>
+  <runsDone>
+    <run runId="14">
+      <device>low-end</device>
+      <path>android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk</path>
+      <runCount>15</runCount>
+    </run>
+  </runsDone>
+</experiment>
