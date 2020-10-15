@@ -13,7 +13,6 @@
   "randomization": true,
   "paths": [
     "android-runner/experiments/apps/com.alibaba.aliexpresshd.xapk",
-    "android-runner/experiments/apps/com.booking.xapk",
     "android-runner/experiments/apps/com.deliveroo.orderapp.xapk",
     "android-runner/experiments/apps/com.reddit.frontpage.xapk",
     "android-runner/experiments/apps/com.google.android.youtube.xapk",
