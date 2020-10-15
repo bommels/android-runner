@@ -83,7 +83,13 @@ app_data['app'] <- app_names
 updateMisalignedAppNames <- function(app){
   if(app == 'alibaba'){
     app = 'aliexpress'
-  } else {
+  } else if(app == 'inditex'){
+    app = 'zara'
+  } else if(app == 'ninegag'){
+    app = '9gag'
+  } else if(app == 'google'){
+    app = 'youtube'
+  }else {
     app = app
   }
 }
@@ -160,6 +166,27 @@ check_normality <- function(data){
 }
 app_data$Joule_calculated %>%
   check_normality
+```
+
+```{r}
+font_size <- 12
+
+# TODO add title
+# FIXME Filter on device type?
+bp <- ggplot(app_data, aes(x = app, y = Joule_calculated)) +
+  theme_bw() +
+  xlab("App") + ylab("Joules") +
+  ylim(c(0, 500)) +
+  geom_violin(trim = FALSE, alpha = 0.5) +
+  geom_boxplot(color = 'red', width = .2, fill = 'white', outlier.size = .5) +
+  stat_summary(fun = mean, color = 'black', geom = 'point', shape = 5, size = 2, show.legend = F) +
+  theme(
+    strip.text.x = element_text(size = font_size),
+    strip.text.y = element_text(size = font_size),
+    axis.text.x = element_text(size = font_size),
+    axis.text.y = element_text(size = font_size)
+    )
+bp
 ```
 
 
