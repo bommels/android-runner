@@ -68,6 +68,7 @@ def scenarioWebTwitchJ7(device: Device, isFirstRun):
         tap(device, 416, 306) # Tap some stream
 
 def scenarioWeb9GAGJ7(device: Device, isFirstRun):
+    time.sleep(1) # wait 
     tap(device, 612, 1216) # Continue to web app
     time.sleep(5) # wait for cookies
     tap(device, 362, 1045) # Accept cookies
