@@ -56,8 +56,12 @@ def scenarioNativeDeliverooJ7(device: Device, isFirstRun):
     tap(device, 672, 93) # Search location btn
     write_text(device, 'Amsterdam')
     tap(device, 193, 194) # Top result
+    logger.log('confirm')
     tap(device, 369, 1221) # Confirm location
+    logger.log('skip')
     tap(device, 659, 90) # Skip
+    logger.log('wait 3s')
+    time.sleep(3) # wait 
     tap(device, 351, 994) # Ok
     while True:
         swipe(device, 288, 1024, 288, 204)
