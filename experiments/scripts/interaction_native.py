@@ -75,8 +75,8 @@ def scenarioNative9GAGJ7(device: Device, isFirstRun):
         swipe(device, 288, 204, 288, 1024)
 
 def scenarioNativeRedditJ7(device: Device, isFirstRun):
-    if isFirstRun:
-        tap(device, 342, 1245) # continue without account
+    time.sleep(3) # loading/cookies
+    tap(device, 342, 1245) # continue without account
     while True:
         tap(device, 175, 266) # Press hot
         tap(device, 238, 1056) # Change top
