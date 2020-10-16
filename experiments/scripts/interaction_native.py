@@ -88,14 +88,14 @@ def scenarioNativeRedditJ7(device: Device, isFirstRun):
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
 
-def scenarioNativeWeatherJ7(device: Device, isFirstRun):  # FIXME first run also?
-    logger.info('is first run? {}'.format(isFirstRun))
+def scenarioNativeWeatherJ7(device: Device, isFirstRun): 
+    
     time.sleep(5) # loading
-    if isFirstRun:
-        tap(device, 365, 1160) # Next 
-        tap(device, 353, 1064) # I understand
-        tap(device, 344, 1074) # I understand
-        tap(device, 459, 744) # Deny
+    
+    tap(device, 365, 1160) # Next 
+    tap(device, 353, 1064) # I understand
+    tap(device, 344, 1074) # I understand
+    tap(device, 459, 744) # Deny
     while True:
         write_text(device, 'Amsterdam')
         tap(device, 657, 1216) # Search
