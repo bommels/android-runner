@@ -59,8 +59,8 @@ def scenarioNativeDeliverooJ7(device: Device, isFirstRun):
     
     tap(device, 369, 1221) # Confirm location
     
-    if not isFirstRun:
-        tap(device, 659, 90) # Skip
+    #if not isFirstRun:
+    tap(device, 659, 90) # Skip
     
     tap(device, 351, 994) # Ok
     while True:
