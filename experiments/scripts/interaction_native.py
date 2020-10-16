@@ -69,8 +69,8 @@ def scenarioNativeDeliverooJ7(device: Device, isFirstRun):
 
 def scenarioNative9GAGJ7(device: Device, isFirstRun):
     time.sleep(2) # wait for cookies
-    if isFirstRun:
-        tap(device, 375, 970) # Consent
+    #if isFirstRun:
+    tap(device, 375, 970) # Consent
     while True:
         tap(device, 265, 173) # Press Trending
         swipe(device, 288, 1024, 288, 204)
