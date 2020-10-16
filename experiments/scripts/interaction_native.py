@@ -89,7 +89,7 @@ def scenarioNativeRedditJ7(device: Device, isFirstRun):
         swipe(device, 288, 204, 288, 1024)
 
 def scenarioNativeWeatherJ7(device: Device, isFirstRun):  # FIXME first run also?
-    logger.info('is first run? ' + isFirstRun)
+    logger.info('is first run? {}'.format(isFirstRun))
     time.sleep(5) # loading
     if isFirstRun:
         tap(device, 365, 1160) # Next 
