@@ -19,7 +19,8 @@ def swipe(device: Device, x1: int, y1: int, x2: int, y2: int, sleep = 4, duratio
 
 def scenarioNativeAliExpressJ7(device: Device, isFirstRun):
     # if isFirstRun:
-    tap(device, 362, 946) # Remove pop up
+    time.sleep(5) # wait for ads and loading
+    #tap(device, 362, 946) # Remove pop up
     tap(device, 281, 93) # print('search')
     write_text(device, 'Shoes') # print('search write')
     tap(device, 661, 1218) # print('search btn')
