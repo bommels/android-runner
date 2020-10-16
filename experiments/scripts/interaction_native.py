@@ -20,7 +20,7 @@ def swipe(device: Device, x1: int, y1: int, x2: int, y2: int, sleep = 4, duratio
 def scenarioNativeAliExpressJ7(device: Device, isFirstRun):
     # if isFirstRun:
     time.sleep(5) # wait for ads and loading
-    tap(device, 362, 946) # Remove pop up
+    tap(device, 362, 946) # Remove pop up #FIXME Sometimes doesn't show up... not after a good cleanup?
     tap(device, 281, 93) # print('search')
     write_text(device, 'Shoes') # print('search write')
     tap(device, 661, 1218) # print('search btn')
@@ -51,14 +51,14 @@ def scenarioNativeBookingJ7(device: Device, isFirstRun): # FIXME not taking the 
         tap(device, 369, 869) # Blue search btn
 
 def scenarioNativeDeliverooJ7(device: Device, isFirstRun):
-    if isFirstRun:
-        tap(device, 459, 725) # Deny location
-        tap(device, 672, 93) # Search location btn
-        write_text(device, 'Amsterdam')
-        tap(device, 193, 194) # Top result
-        tap(device, 369, 1221) # Confirm location
-        tap(device, 659, 90) # Skip
-        tap(device, 351, 994) # Ok
+    time.sleep(5) # wait for cookies
+    tap(device, 459, 725) # Deny location
+    tap(device, 672, 93) # Search location btn
+    write_text(device, 'Amsterdam')
+    tap(device, 193, 194) # Top result
+    tap(device, 369, 1221) # Confirm location
+    tap(device, 659, 90) # Skip
+    tap(device, 351, 994) # Ok
     while True:
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
