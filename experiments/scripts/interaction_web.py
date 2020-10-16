@@ -68,10 +68,10 @@ def scenarioWebTwitchJ7(device: Device, isFirstRun):
         tap(device, 416, 306) # Tap some stream
 
 def scenarioWeb9GAGJ7(device: Device, isFirstRun):
-    time.sleep(8) # wait for cookies
-    tap(device, 362, 1045) # Accept cookies
-    tap(device, 670, 1224) # Remove bottom bar
     tap(device, 612, 1216) # Continue to web app
+    time.sleep(5) # wait for cookies
+    tap(device, 362, 1045) # Accept cookies
+    #tap(device, 670, 1224) # Remove bottom bar
     while True:
         tap(device, 339, 264) # Press Trending
         swipe(device, 288, 1024, 288, 204)
