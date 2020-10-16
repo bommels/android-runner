@@ -19,13 +19,13 @@ library(effsize)
 First we have to read in the data. There were four seperate runs we have to 'stitch' together the aggregated results.
 ```{r}
 # First aggregated read, do we need it?
-data <- read.csv('~/Git/uni/GL/android-runner/Data/EXAMPLE-Aggregated_Results_Batterystats.csv', sep = ';')
-data <- tibble(data)
+# data <- read.csv('~/Git/uni/GL/android-runner/Data/EXAMPLE-Aggregated_Results_Batterystats.csv', sep = ';')
+# data <- tibble(data)
 
-as.factor(data$device)
-as.factor(data$app_type)
-as.factor(data$subject)
-as.numeric(data$batterystats_Joule_calculated)
+# as.factor(data$device)
+# as.factor(data$app_type)
+# as.factor(data$subject)
+# as.numeric(data$batterystats_Joule_calculated)
 ```
 
 We also want to be sure that the data is valid, thus not having a too high standard deviation between subjects and treatments themselves.
@@ -137,10 +137,26 @@ high_end_app_data <- app_data %>%
   filter(device == 'high')
 summarize_data(high_end_app_data)
 
+high_end_web_app_data <- high_end_app_data %>%
+  filter(app_type == 'web')
+summarize_data(high_end_web_app_data)
+
+high_end_native_app_data <- high_end_app_data %>%
+  filter(app_type == 'native')
+summarize_data(high_end_native_app_data)
+
 # Summary for low-end device
 low_end_app_data <- app_data %>%
   filter(device == 'low')
 summarize_data(low_end_app_data)
+
+low_end_web_app_data <- low_end_app_data %>%
+  filter(app_type == 'web')
+summarize_data(low_end_web_app_data)
+
+low_end_native_app_data <- low_end_app_data %>%
+  filter(app_type == 'native')
+summarize_data(low_end_native_app_data)
 
 ```
 
@@ -171,22 +187,30 @@ app_data$Joule_calculated %>%
 ```{r}
 font_size <- 12
 
-# TODO add title
-# FIXME Filter on device type?
-bp <- ggplot(app_data, aes(x = app, y = Joule_calculated)) +
+visualize <- function(app_data, title){
+  result <- ggplot(app_data, aes(x = app, y = Joule_calculated)) +
   theme_bw() +
   xlab("App") + ylab("Joules") +
-  ylim(c(0, 500)) +
-  geom_violin(trim = FALSE, alpha = 0.5) +
-  geom_boxplot(color = 'red', width = .2, fill = 'white', outlier.size = .5) +
-  stat_summary(fun = mean, color = 'black', geom = 'point', shape = 5, size = 2, show.legend = F) +
+  ylim(c(0, 450)) +
+  geom_violin(trim = FALSE, alpha = 0.5, width = 1) +
+  geom_boxplot(color = 'red', width = .2, fill = 'white', outlier.size = .5, alpha = .6) +
+  stat_summary(fun = mean, color = 'black', geom = 'point', shape = 5, size = 2, show.legend = T) +
   theme(
     strip.text.x = element_text(size = font_size),
     strip.text.y = element_text(size = font_size),
     axis.text.x = element_text(size = font_size),
     axis.text.y = element_text(size = font_size)
-    )
-bp
+    ) + 
+  labs(title = title, subtitle = NULL, caption = NULL)
+
+  
+  return(result)
+}
+
+visualize(high_end_web_app_data, title = "Web subjects' energy consumption for high-end device")
+visualize(high_end_native_app_data, title = "Native subjects' energy consumption for high-end device")
+visualize(low_end_web_app_data, title = "Web subjects' energy consumption for low-end device")
+visualize(low_end_native_app_data, title = "Native subjects' energy consumption for low-end device")
 ```
 
 
