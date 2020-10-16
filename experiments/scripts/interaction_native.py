@@ -51,7 +51,7 @@ def scenarioNativeBookingJ7(device: Device, isFirstRun): # FIXME not taking the 
         tap(device, 369, 869) # Blue search btn
 
 def scenarioNativeDeliverooJ7(device: Device, isFirstRun):
-    time.sleep(5) # wait for cookies
+    time.sleep(3) # wait for cookies
     tap(device, 459, 725) # Deny location
     tap(device, 672, 93) # Search location btn
     write_text(device, 'Amsterdam')
@@ -59,8 +59,8 @@ def scenarioNativeDeliverooJ7(device: Device, isFirstRun):
     
     tap(device, 369, 1221) # Confirm location
     
-    if isFirstRun:
-        tap(device, 659, 90) # Skip
+    # if isFirstRun:
+    tap(device, 659, 90) # Skip
     
     tap(device, 351, 994) # Ok
     while True:
