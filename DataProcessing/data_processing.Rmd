@@ -180,6 +180,13 @@ check_normality <- function(data){
   car::qqPlot(data)
   shapiro.test(data)
 }
+
+low_end_app_data$Joule_calculated %>%
+  check_normality
+
+high_end_app_data$Joule_calculated %>%
+  check_normality
+
 app_data$Joule_calculated %>%
   check_normality
 ```
@@ -191,8 +198,8 @@ visualize <- function(app_data, title){
   result <- ggplot(app_data, aes(x = app, y = Joule_calculated)) +
   theme_bw() +
   xlab("App") + ylab("Joules") +
-  ylim(c(0, 450)) +
-  geom_violin(trim = FALSE, alpha = 0.5, width = 1) +
+  ylim(c(0, 800)) +
+  geom_violin(trim = TRUE, alpha = 0.5, width = 1) +
   geom_boxplot(color = 'red', width = .2, fill = 'white', outlier.size = .5, alpha = .6) +
   stat_summary(fun = mean, color = 'black', geom = 'point', shape = 5, size = 2, show.legend = T) +
   theme(
@@ -206,11 +213,32 @@ visualize <- function(app_data, title){
   
   return(result)
 }
-
 visualize(high_end_web_app_data, title = "Web subjects' energy consumption for high-end device")
 visualize(high_end_native_app_data, title = "Native subjects' energy consumption for high-end device")
 visualize(low_end_web_app_data, title = "Web subjects' energy consumption for low-end device")
 visualize(low_end_native_app_data, title = "Native subjects' energy consumption for low-end device")
+```
+
+```{r}
+apps <- c('9gag', 'aliexpress', 'deliveroo', 'reddit', 'weather', 'youtube', 'zara')
+historgramsPerApp <- function(device_tier_app_type_data){
+  for (appName in apps) {
+     dataApp <- device_tier_app_type_data %>%
+        filter(app == appName)
+     hist(x = dataApp$Joule_calculated, main = paste("Histogram of joules for ", appName), breaks = 25)
+  }  
+}
+historgramsPerApp(high_end_native_app_data)
+historgramsPerApp(high_end_web_app_data)
+historgramsPerApp(low_end_web_app_data)
+```
+
+```{r}
+# Show joules per app type
+plot(app_data$Joule_calculated ~ app_data$app_type)
+
+# Show joules per app type
+plot(app_data$Joule_calculated ~ app_data$device)
 ```
 
 
@@ -251,6 +279,15 @@ summary(app_data.two_way_aov)
 postHoc <- TukeyHSD(x = app_data.two_way_aov, 'app_data$app_type', conf.level = 0.95)
 plot(postHoc)
 postHoc
+```
+
+```{r}
+# If normality can't be assumed
+# Filter data with blocking factor device tier
+t.test.data <- app_data
+# FIXME not correct need to check slides
+# Paired t test 
+t.test(t.test.data$Joule_calculated ~ t.test.data$app_type, data = app_data, paired = TRUE)
 ```
 
 # 4. Effect size calculation
