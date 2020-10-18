@@ -180,16 +180,105 @@ check_normality <- function(data){
   car::qqPlot(data)
   shapiro.test(data)
 }
+```
 
-low_end_app_data$Joule_calculated %>%
+```{R}
+data.sum.low_end <- low_end_app_data$Joule_calculated %>%
   check_normality
 
-high_end_app_data$Joule_calculated %>%
-  check_normality
+```
+The density shows a very heavy right tail. The peak of the curve is at around $300$. With two smaller 'peaks' at $450$ and $650$. With a p-value of `r data.sum.low_end$p.value` for the Shapiro-Wilk normality test we can conclude that the sample is not drawn from a normal distribution. 
 
-app_data$Joule_calculated %>%
+```{R}
+data.sum.high_end <- high_end_app_data$Joule_calculated %>%
+  check_normality
+data.sum.high_end
+```
+The density shows a heavy right tail. The peak of the curve is at around $160$. With a small peak on the left tail at around $100$. With a p-value of `r data.sum.high_end$p.value` for the Shapiro-Wilk normality test we can conclude that the sample is not drawn from a normal distribution. 
+
+
+## Split data on device tier and app type
+As shown previously the normality cannot be assumed on distributions when we use only the device type. Therefore we also will check if this changes if we split all data up on device tier and app type.
+
+```{R}
+high_end_web_app_data$Joule_calculated %>%
   check_normality
 ```
+Normality rejected.
+
+```{r}
+high_end_native_app_data$Joule_calculated %>%
+  check_normality
+```
+Normality rejected.
+
+```{r}
+data.sum.high_end <-low_end_web_app_data$Joule_calculated %>%
+  check_normality
+```
+Normality rejected.
+
+```{r}
+low_end_native_app_data$Joule_calculated %>%
+  check_normality
+```
+Normality rejected.
+
+## Also split it per app?
+
+
+## Adding transformations
+As a last resort we will perform a few standard transformation on the data to see if we can hold on to the normality assumption. We add a logarithm, square root and reciprocal transformation to the data frame.
+```{r}
+add_transform_data <- function(device_app_data){
+  return(device_app_data %>%
+    mutate(joule_log = log(Joule_calculated),
+           joule_sqrt = sqrt(Joule_calculated),
+           joule_reciprocal = 1/Joule_calculated))
+}
+visualize_transform_distributions <- function(device_app_data){
+  plot_cols <- c('Joule_calculated', 'joule_log', 'joule_sqrt', 'joule_reciprocal')
+  mapply(hist, device_app_data[plot_cols], 
+         main = paste("Distribution of", plot_cols),
+         xlab = plot_cols)
+}
+```
+
+```{R}
+low_end_app_data <- add_transform_data(low_end_app_data)
+visualize_transform_distributions(low_end_app_data)
+data.sum.low_end_transform <- low_end_app_data$joule_log %>%
+  check_normality
+```
+
+```{R}
+high_end_app_data <- add_transform_data(high_end_app_data)
+visualize_transform_distributions(high_end_app_data)
+
+data.sum.high_end_transform <- high_end_app_data$joule_log %>%
+  check_normality
+```
+Normality for high end app data with a log transform cannot be rejected, p-value: `r data.sum.high_end_transform$p.value` for the Shapiro-Wilk normality test.
+
+
+```{r}
+# Checking for both app types
+
+high_end_web_app_data <- add_transform_data(high_end_web_app_data)
+visualize_transform_distributions(high_end_web_app_data)
+
+# normality cannot be rejected
+high_end_web_app_data$joule_log %>%
+  check_normality
+
+high_end_native_app_data <- add_transform_data(high_end_native_app_data)
+visualize_transform_distributions(high_end_native_app_data)
+
+# normality cannot be rejected
+high_end_native_app_data$joule_log %>%
+  check_normality
+```
+
 
 ```{r}
 font_size <- 12
@@ -270,24 +359,48 @@ Homoscedasticity (varaiance between groups should be equal) check:
 leveneTest(app_data$Joule_calculated, app_data$app_type)
 ```
 
+If normality could be assumed on the entire dataset we could have answered RQ1 and RQ2 with a two-way ANOVA. However the normality asumption only holds for the high-end tiered devices. Therefore a two-way ANOVA cannot be performed and therefore RQ2 cannot be answered. RQ1 however can be answered based on the high-end tier's obtained data. Because this data is assumed to come from a normal distribution a paired t-test can be performed.
+
 # 3. Hypothesis testing
 ```{r}
-summary(app_data.two_way_aov)
-# TODO do we need to do p-value corrections?
-
-# TODO do we need Tukey's test, this isn't correct with example data at least
-postHoc <- TukeyHSD(x = app_data.two_way_aov, 'app_data$app_type', conf.level = 0.95)
-plot(postHoc)
-postHoc
+# summary(app_data.two_way_aov)
+# # TODO do we need to do p-value corrections?
+# 
+# # TODO do we need Tukey's test, this isn't correct with example data at least
+# postHoc <- TukeyHSD(x = app_data.two_way_aov, 'app_data$app_type', conf.level = 0.95)
+# plot(postHoc)
+# postHoc
 ```
+
+```{r}
+# Transformations to make the data normal? (DONE) or more?
+
+```
+
+```{r}
+# If normality can be assumed 
+
+# For high-end log transform the data can stem from a normal distribution, therefore we can perform a paired t test
+
+t.data.x <- high_end_native_app_data$joule_log
+t.data.y <- high_end_web_app_data$joule_log
+t.test.result <- t.test(t.data.x, t.data.y, paired=TRUE)
+
+t.test.result
+```
+The t test gives a p-value of `r t.test.result$p.value ` which is below the $\alpha = 0.05$ threshold. Therfore we reject the null-hyptothesis, and assume the alternative hypothesis which yields in this case the $\mu_{web} \neq \mu_{native}$.
 
 ```{r}
 # If normality can't be assumed
 # Filter data with blocking factor device tier
-t.test.data <- app_data
-# FIXME not correct need to check slides
-# Paired t test 
-t.test(t.test.data$Joule_calculated ~ t.test.data$app_type, data = app_data, paired = TRUE)
+
+# Wilcoxon signed-rank non-parametric test
+
+wilcox.data.x <- high_end_native_app_data$Joule_calculated
+wilcox.data.y <- high_end_web_app_data$Joule_calculated
+wilcox.test.result <- wilcox.test(wilcox.data.x, wilcox.data.y, paired=TRUE)
+
+wilcox.test.result$p.value # Very significant?
 ```
 
 # 4. Effect size calculation
@@ -299,17 +412,23 @@ As we used an ANOVA we use Cohen\'s measure.
 # FIXME separate on device type?
 
 # Get all batterystats_Joule_calculated where app_type == web
-treatmentWeb <- app_data %>%
-  filter(app_type == 'web')
+# treatmentWeb <- app_data %>%
+#   filter(app_type == 'web')
 
 # Get all batterystats_Joule_calculated where app_type == native
-treatmentNative <- app_data %>%
-  filter(app_type == 'native')
+# treatmentNative <- app_data %>%
+#   filter(app_type == 'native')
 
 # FIXME doesn't work with example data yet
-cohen.d(treatmentWeb$Joule_calculated, treatmentNative$Joule_calculated, paired=FALSE, pooled=FALSE)
+
+# cohen.d(treatmentWeb$Joule_calculated, treatmentNative$Joule_calculated, paired=FALSE, pooled=FALSE)
 # FIXME is paired false?
+
+# Taking the normality assumption, we use the transformed data (correct?) 
+cohen.d(high_end_native_app_data$joule_log, high_end_web_app_data$joule_log, paired = TRUE, pooled = FALSE)
+
 ```
+
 
 # 5. Power analysis (optional)
 ```{r}
