@@ -111,6 +111,7 @@ app_data['device'] <- csv_paths %>%
 
 # Show a part of the data frame
 tail(app_data)
+table(app_data$device, app_data$app_type)
 ```
 
 As we can see ....
@@ -433,6 +434,70 @@ cohen.d(high_end_native_app_data$joule_log, high_end_web_app_data$joule_log, pai
 # 5. Power analysis (optional)
 ```{r}
 
+```
+
+
+
+# (0) based on statology
+This can be ignored
+
+```{r}
+## Following https://www.statology.org/two-way-anova-r/ example
+app_data %>%
+  group_by(device, app_type) %>%
+  summarise(mean = mean(Joule_calculated),
+            sd = sd(Joule_calculated))
+```
+
+```{r}
+boxplot(Joule_calculated ~ device:app_type,
+  data = app_data,
+  main = "Joules Distribution by Group",
+  xlab = "Group",
+  ylab = "Joules",
+  col = "steelblue",
+  border = "black", 
+  las = 2 #make x-axis labels perpendicular
+)
+```
+
+```{r}
+model <- aov(Joule_calculated ~ device * app_type, data = app_data)
+summary(model)
+```
+
+```{r}
+# Independence – the observations in each group need to be independent of each other. Since we used a randomized design, this assumption should be met so we don’t need to worry too much about this
+
+# Normality – the dependent variable should be approximately normally distributed for each combination of the groups of the two factors. 
+
+# One way to check this assumption is to create a histogram of the model residuals. If the residuals are roughly normally distributed, this assumption should be met
+
+#define model residuals
+resid <- model$residuals
+
+#create histogram of residuals
+hist(resid, main = "Histogram of Residuals", xlab = "Residuals", col = "steelblue")
+
+# The residuals are not normally distributed, so we can assume the normality assumption is not met
+```
+```{r}
+#One way to check this assumption is to conduct a Levene’s Test for equality of variances using the car package
+
+#conduct Levene's Test for equality of variances
+leveneTest(Joule_calculated ~ device * app_type, data = app_data)
+
+# Since the p-value of the test is greater than our significance level of 0.05, we can assume that our assumption of equality of variances among groups is met
+```
+
+```{r}
+TukeyHSD(model, conf.level=.95) 
+```
+```{r}
+#set axis margins so labels don't get cut off
+par(mar=c(10, 13, 10, 2.1))
+# create confidence interval for each comparison
+plot(TukeyHSD(model, conf.level=.95), las = 2)
 ```
 
 
