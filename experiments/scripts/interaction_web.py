@@ -34,15 +34,13 @@ def scenarioWebAliExpressJ7(device: Device, isFirstRun):
 
 def scenarioWebTripAdvisorJ7(device: Device, isFirstRun):
     tap(device, 672, 533) # First search
-    write_text(device, 'Amsterdam Marriott Hotel')
-    time.sleep(6)
-    tap(device, 312, 320) # Top result
+    
+    tap(device, 342, 589) # Click Shopping
     while True:
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
-        tap(device, 668, 186) # Get search bar
-        write_text(device, 'Amsterdam Marriott Hotel')
-        tap(device, 299, 322) # Top result
+        tap(device, 663, 330) # Get search bar
+        tap(device, 346, 594) # Click Shopping
 
 def scenarioWebDeliverooJ7(device: Device, isFirstRun):
     tap(device, 333, 738) # Tap zip code search
