@@ -32,21 +32,16 @@ def scenarioWebAliExpressJ7(device: Device, isFirstRun):
         tap(device, 661, 1218) # print('search btn')
         swipe(device, 288, 1024, 288, 204)
 
-def scenarioWebBookingJ7(device: Device, isFirstRun):
-    # if isFirstRun:
-    tap(device, 546, 1218) # Accept cookies
-    tap(device, 333, 760) # First search
-    write_text(device, 'Amsterdam')
-    tap(device, 633, 1202) # keyboard search btn 
+def scenarioWebTripAdvisorJ7(device: Device, isFirstRun):
+    tap(device, 672, 533) # First search
+    write_text(device, 'Amsterdam Mariott Hotel')
+    tap(device, 312, 320) # Top result
     while True:
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
-        tap(device, 321, 602) # Get search bar
-        tap(device, 339, 498) # Search
-        tap(device, 670, 504) # Clear search
-        write_text(device, 'Amsterdam')
-        tap(device, 443, 597) # Top result
-        tap(device, 366, 1021) # Blue search
+        tap(device, 666, 253) # Get search bar
+        write_text(device, 'Amsterdam Mariott Hotel')
+        tap(device, 312, 320) # Top result
 
 def scenarioWebDeliverooJ7(device: Device, isFirstRun):
     tap(device, 333, 738) # Tap zip code search
@@ -147,8 +142,8 @@ def main(device, *args, **kwargs):
 
     if URL in 'https://www.aliexpress.com/':
         scenarioWebAliExpressJ7(device, isFirstRun)
-    elif URL in 'https://www.booking.com/':
-        scenarioWebBookingJ7(device, isFirstRun)
+    elif URL in 'https://www.tripadvisor.com/':
+        scenarioWebTripAdvisorJ7(device, isFirstRun)
     elif URL in 'https://www.reddit.com/':
         scenarioWebRedditJ7(device, isFirstRun)
     elif URL in 'https://www.weather.com/':
