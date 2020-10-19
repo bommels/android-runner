@@ -40,45 +40,49 @@ app_data <- csv_paths %>%
   lapply(read_csv) %>%
   bind_rows
 
-# Find web apps based on www in their path
-web_apps <- csv_paths %>%
-  strsplit('-', fixed = TRUE) %>%
-  rapply(nth, n=3) %>%
-  str_detect(., 'www')
-# Split into web and native app_type
-temp_list <- list(length(web_apps))
-for(i in 1:length(web_apps)){
-  if(web_apps[i]){
-    temp_list[i] = 'web'
-  } else{
-    temp_list[i] = 'native'
-  }
-}
-app_data['app_type'] <- unlist(temp_list)
-app_data$app_type <- as.factor(app_data$app_type)
-
 # Add paths to data frame for reading out the correct names later
 app_data['path'] = csv_paths
-# tibble(app_data)
 
-# Filter on https-www to get the web apps again
-web_app_paths <- app_data %>%
-  filter(str_detect(path, '(.*https-www.*)'))
-# Split paths to get the correct name
-web_app_names <- web_app_paths$path %>% 
-  strsplit('-', TRUE) %>%
-  rapply(nth, n=4)
+# Based on the paths get the device tier and add it to the dataframe
+app_data['device'] <- csv_paths %>%
+  strsplit('-', fixed = TRUE) %>%
+  rapply(nth, n=1) %>%
+  strsplit('/', fixed = TRUE) %>%
+  rapply(nth, n=6) %>%
+  factor
 
-# Filter on android-runner-experiments to get the native apps again
-native_app_paths <- app_data %>%
-  filter(str_detect(path, '(.*android-runner-experiments.*)'))
-native_app_names <- native_app_paths$path %>% 
-  strsplit('-', TRUE) %>%
-  rapply(nth, n=7)
+extract_app_type <- function(splitString){
+  temp <- strsplit(x = splitString, split = '-', fixed = TRUE)
+  result <- unlist(temp)[3]
+  if(str_detect(result, 'www')){
+    result <- "web"
+  }
+  if(str_detect(result, 'runner')){
+    result <- "native"
+  }
+  return(result)
+}
+# Extract app type based on path
+app_type <- app_data$path %>%
+  lapply(extract_app_type)
+app_data['app_type']<- unlist(app_type)
 
-# Combine web app names and native app names and add them to the dataframe
-app_names <- c(web_app_names, native_app_names)
-app_data['app'] <- app_names 
+extract_app_name <- function(path)  {
+  temp <- strsplit(x = path, split = '/', fixed = TRUE)
+  result <- unlist(temp)[7]
+  if(str_detect(result, '(.*https-www.*)')){
+    result <- unlist(strsplit(x = result, split = '-'))[3]
+  }
+  if(str_detect(result, '(.*android-runner-experiments.*)')){
+    result <- unlist(strsplit(x = result, split = '-'))[6]
+  }
+  return(result)
+}
+
+# Extract app names based on path
+app_names <- app_data$path %>%
+  lapply(extract_app_name)
+app_data['app'] <- unlist(app_names)
 
 updateMisalignedAppNames <- function(app){
   if(app == 'alibaba'){
@@ -101,17 +105,13 @@ updatedAppNames <- app_data$app %>%
 # Add the updated names to the dataframe again
 app_data['app'] <- unlist(updatedAppNames)
 
-# Based on the paths get the device tier and add it to the dataframe
-app_data['device'] <- csv_paths %>%
-  strsplit('-', fixed = TRUE) %>%
-  rapply(nth, n=1) %>%
-  strsplit('/', fixed = TRUE) %>%
-  rapply(nth, n=6) %>%
-  factor
+app_data$app_type <- as.factor(app_data$app_type)
+app_data$app <- as.factor(app_data$app)
 
 # Show a part of the data frame
 tail(app_data)
 table(app_data$device, app_data$app_type)
+write_csv(path = './full_results.csv', x = app_data)
 ```
 
 As we can see ....
@@ -321,6 +321,7 @@ historgramsPerApp <- function(device_tier_app_type_data){
 historgramsPerApp(high_end_native_app_data)
 historgramsPerApp(high_end_web_app_data)
 historgramsPerApp(low_end_web_app_data)
+historgramsPerApp(low_end_native_app_data)
 ```
 
 ```{r}
@@ -462,11 +463,11 @@ visualize_both <- function(app_data, title){
   return(result)
 }
 
-visualize_both_v2 <- function(app_data, title){
-  result <- ggplot(app_data, aes(x = app, y = Joule_calculated)) +
+visualize_both_v2 <- function(input_data, title){
+  result <- ggplot(input_data, aes(x = app, y = Joule_calculated)) +
   theme_classic() +
   xlab("App") + ylab("Joules") +
-  ylim(c(0, max(app_data$Joule_calculated) + 50)) +
+  ylim(c(0, max(input_data$Joule_calculated) + 50)) +
   geom_violin(mapping = aes(label = app_type, color = app_type), trim = TRUE, alpha = .5, width = .5) +
   geom_boxplot(mapping = aes(label = app_type, fill = app_type), width = .5, color = 'black', outlier.size = .5, alpha = .4) +
   
