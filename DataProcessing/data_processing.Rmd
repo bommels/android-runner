@@ -383,6 +383,7 @@ If normality could be assumed on the entire dataset we could have answered RQ1 a
 
 # For high-end log transform the data can stem from a normal distribution, therefore we can perform a paired t test
 
+# FIXME blocking factor on device (now we just remove all low-end data)
 t.data.x <- high_end_native_app_data$joule_log
 t.data.y <- high_end_web_app_data$joule_log
 t.test.result <- t.test(t.data.x, t.data.y, paired=TRUE)
@@ -436,6 +437,64 @@ cohen.d(high_end_native_app_data$joule_log, high_end_web_app_data$joule_log, pai
 
 ```
 
+
+# Visualization 
+
+```{r}
+
+font_size <- 12
+
+visualize_both <- function(app_data, title){
+  result <- ggplot(app_data, aes(x = app, y = Joule_calculated)) +
+  theme_classic() +
+  xlab("App") + ylab("Joules") +
+  ylim(c(0, max(app_data$Joule_calculated) + 50)) +
+    geom_boxplot(mapping = aes(label = app_type, fill = app_type), width = 1, color = 'black', outlier.size = .5, alpha = .7) +
+  geom_violin(mapping = aes(label = app_type, color = app_type), trim = TRUE, alpha = .8, width = 1) +
+  # stat_summary(mapping = aes(color = app_type), fun = mean, geom = 'point', shape = 5, size = 2, show.legend = T) +
+  theme(
+    strip.text.x = element_text(size = font_size),
+    strip.text.y = element_text(size = font_size),
+    axis.text.x = element_text(size = font_size),
+    axis.text.y = element_text(size = font_size)
+    ) 
+  
+  return(result)
+}
+
+visualize_both_v2 <- function(app_data, title){
+  result <- ggplot(app_data, aes(x = app, y = Joule_calculated)) +
+  theme_classic() +
+  xlab("App") + ylab("Joules") +
+  ylim(c(0, max(app_data$Joule_calculated) + 50)) +
+  geom_violin(mapping = aes(label = app_type, color = app_type), trim = TRUE, alpha = .5, width = .5) +
+  geom_boxplot(mapping = aes(label = app_type, fill = app_type), width = .5, color = 'black', outlier.size = .5, alpha = .4) +
+  
+  # stat_summary(mapping = aes(label = app_type, fill = app_type), fun = mean, geom = 'point', shape = 5, size = 1, show.legend = T) +
+  theme(
+    strip.text.x = element_text(size = font_size),
+    strip.text.y = element_text(size = font_size),
+    axis.text.x = element_text(size = font_size),
+    axis.text.y = element_text(size = font_size)
+    ) 
+  
+  return(result)
+}
+web_apps_both_tier <- app_data %>%
+  filter(app_type == 'web')
+visualize(web_apps_both_tier, "web")
+
+native_apps_both_tier <- app_data %>%
+  filter(app_type == 'native')
+visualize(native_apps_both_tier, "native")
+
+# visualize_both(low_end_app_data, "combined")
+# visualize_both_v2(low_end_app_data, "combined")
+
+visualize_both(high_end_app_data, "combined")
+visualize_both_v2(high_end_app_data, "combined")
+
+```
 
 
 # (0) based on statology
