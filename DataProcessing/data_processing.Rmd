@@ -248,7 +248,7 @@ visualize_transform_distributions <- function(device_app_data){
 ```{R}
 low_end_app_data <- add_transform_data(low_end_app_data)
 visualize_transform_distributions(low_end_app_data)
-data.sum.low_end_transform <- low_end_app_data$joule_log %>%
+data.sum.low_end_transform <- low_end_app_data$joule_sqrt %>%
   check_normality
 ```
 
@@ -488,8 +488,8 @@ native_apps_both_tier <- app_data %>%
   filter(app_type == 'native')
 visualize(native_apps_both_tier, "native")
 
-# visualize_both(low_end_app_data, "combined")
-# visualize_both_v2(low_end_app_data, "combined")
+visualize_both(low_end_app_data, "combined")
+visualize_both_v2(low_end_app_data, "combined")
 
 visualize_both(high_end_app_data, "combined")
 visualize_both_v2(high_end_app_data, "combined")
