@@ -36,6 +36,7 @@ def scenarioWebTripAdvisorJ7(device: Device, isFirstRun):
     tap(device, 294, 928) # Where to
     write_text(device, 'Amsterdam')
     tap(device, 256, 344) # First hit
+    time.sleep(3)
     tap(device, 459, 701) # Click hotels
     while True:
         swipe(device, 288, 1024, 288, 204)
