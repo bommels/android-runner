@@ -149,9 +149,9 @@ def main(device, *args, **kwargs):
     if device.current_activity().find('com.alibaba.aliexpresshd') != -1:
         print('running aliexpress')
         scenarioNativeAliExpressJ7(device, isFirstRun)
-    elif device.current_activity().find('com.booking') != -1:
-        print('running booking')
-        scenarioNativeBookingJ7(device, isFirstRun)
+    elif device.current_activity().find('com.tripadvisor.tripadvisor') != -1:
+        print('running tripadvisor')
+        scenarioNativeTripAdvisorJ7(device, isFirstRun)
     elif device.current_activity().find('com.deliveroo.orderapp') != -1:
         print('running deliveroo')
         scenarioNativeDeliverooJ7(device, isFirstRun)
