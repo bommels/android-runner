@@ -36,7 +36,7 @@ def scenarioNativeTripAdvisorJ7(device: Device, isFirstRun): # FIXME not taking 
     tap(device, 387, 970) # set preferences
     tap(device, 558, 925) # Privacy Notice
     tap(device, 670, 93) # do not login 
-    tap(device, 362, 706) # location not now
+    # tap(device, 362, 706) # location not now
     tap(device, 360, 240) # where to
     write_text(device, 'Amsterdam')
     tap(device, 335, 298) # click first
