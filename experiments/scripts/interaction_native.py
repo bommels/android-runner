@@ -39,8 +39,8 @@ def scenarioNativeTripAdvisorJ7(device: Device, isFirstRun): # FIXME not taking 
     tap(device, 362, 706) # location not now
     tap(device, 360, 240) # where to
     write_text(device, 'Amsterdam')
-    tap(device, 335, 298) # where to
-    tap(device, 130, 506) # Hotels
+    tap(device, 335, 298) # click first
+    tap(device, 101, 514) # Hotels
     while True:
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
