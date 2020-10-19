@@ -35,11 +35,12 @@ def scenarioWebAliExpressJ7(device: Device, isFirstRun):
 def scenarioWebTripAdvisorJ7(device: Device, isFirstRun):
     tap(device, 672, 533) # First search
     write_text(device, 'Amsterdam Mariott Hotel')
-    time.sleep(5)
+    time.sleep(7)
     tap(device, 312, 320) # Top result
     while True:
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
+        time.sleep(5)
         tap(device, 666, 253) # Get search bar
         write_text(device, 'Amsterdam Mariott Hotel')
         tap(device, 312, 320) # Top result
