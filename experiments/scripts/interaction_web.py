@@ -38,7 +38,7 @@ def scenarioWebTripAdvisorJ7(device: Device, isFirstRun):
     tap(device, 256, 344) # First hit
     time.sleep(3)
     logger.info('clicking hotels')
-    tap(device, 474, 868) # Click hotels
+    tap(device, 486, 773) # Click hotels
     while True:
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
