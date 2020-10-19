@@ -31,24 +31,22 @@ def scenarioNativeAliExpressJ7(device: Device, isFirstRun):
         write_text(device, 'Shoes') # print('search write')
         tap(device, 661, 1218) # print('search bt
 
-def scenarioNativeBookingJ7(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
-    if isFirstRun:
-        tap(device, 348, 1064) # accept cookies
-    tap(device, 42, 85) # Do not login
-    tap(device, 371, 634) # Search bar 
+def scenarioNativeTripAdvisorJ7(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
+    # if isFirstRun:
+    tap(device, 387, 970) # set preferences
+    tap(device, 558, 925) # Privacy Notice
+    tap(device, 670, 93) # do not login 
+    tap(device, 362, 706) # location not now
+    tap(device, 360, 240) # where to
     write_text(device, 'Amsterdam')
-    tap(device, 346, 221) # Top result
-    tap(device, 351, 1194) # Select dates
-    tap(device, 369, 869) # Blue search btn
+    tap(device, 335, 298) # where to
+    tap(device, 130, 506) # Hotels
     while True:
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
-        tap(device, 22, 77) # Back
-        tap(device, 371, 634) # Search bar 
-        write_text(device, 'Amsterdam')
-        tap(device, 346, 221) # Top result
-        tap(device, 351, 1194) # Select dates
-        tap(device, 369, 869) # Blue search btn
+        tap(device, 677, 93) # search
+        write_text(device, 'Hotels')
+        tap(device, 164, 274) # click first result
 
 def scenarioNativeDeliverooJ7(device: Device, isFirstRun):
     time.sleep(3) # wait for cookies

@@ -33,14 +33,16 @@ def scenarioWebAliExpressJ7(device: Device, isFirstRun):
         swipe(device, 288, 1024, 288, 204)
 
 def scenarioWebTripAdvisorJ7(device: Device, isFirstRun):
-    tap(device, 672, 533) # First search
-    
-    tap(device, 342, 589) # Click Shopping
+    tap(device, 294, 928) # Where to
+    write_text(device, 'Amsterdam')
+    tap(device, 256, 344) # First hit
+    tap(device, 459, 701) # Click hotels
     while True:
         swipe(device, 288, 1024, 288, 204)
         swipe(device, 288, 204, 288, 1024)
-        tap(device, 663, 330) # Get search bar
-        tap(device, 346, 594) # Click Shopping
+        tap(device, 677, 200) # Get search bar
+        write_text(device, 'Amsterdam')
+        tap(device, 252, 330) # Click first hit
 
 def scenarioWebDeliverooJ7(device: Device, isFirstRun):
     tap(device, 333, 738) # Tap zip code search
