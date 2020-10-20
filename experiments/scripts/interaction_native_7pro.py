@@ -33,8 +33,8 @@ def scenarioNativeAliExpress7pro(device: Device, isFirstRun):
 
 def scenarioNativeTripAdvisor7pro(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
     # if isFirstRun:
-    tap(device, 387, 970) # set preferences
-    tap(device, 558, 925) # Privacy Notice
+    # tap(device, 387, 970) # set preferences
+    # tap(device, 558, 925) # Privacy Notice
     tap(device, 1345, 234) # do not login 
     # tap(device, 702, 1417) # location not now
     tap(device, 711, 487) # where to
