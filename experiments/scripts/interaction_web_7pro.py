@@ -139,8 +139,8 @@ def main(device, *args, **kwargs):
 
     if URL in 'https://www.aliexpress.com/':
         scenarioWebAliExpress7pro(device, isFirstRun)
-    elif URL in 'https://www.booking.com/':
-        scenarioWebBooking7pro(device, isFirstRun)
+    elif URL in 'https://www.tripadvisor.com/':
+        scenarioWebTripAdvisorJ7(device, isFirstRun)
     elif URL in 'https://www.reddit.com/':
         scenarioWebReddit7pro(device, isFirstRun)
     elif URL in 'https://www.weather.com/':
