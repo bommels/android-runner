@@ -31,24 +31,22 @@ def scenarioNativeAliExpress7pro(device: Device, isFirstRun):
         write_text(device, 'Desk') # print('search write')
         tap(device, 1314, 2808) # print('search btn')
 
-def scenarioNativeBooking7pro(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
-    #if isFirstRun:
-    tap(device, 1096, 2762) # accept cookies
-    tap(device, 99, 221) # Do not login
-    tap(device, 769, 1352) # Search bar 
+def scenarioNativeTripAdvisor7pro(device: Device, isFirstRun): # FIXME not taking the first run accept cookies?
+    # if isFirstRun:
+    tap(device, 387, 970) # set preferences
+    tap(device, 558, 925) # Privacy Notice
+    tap(device, 1345, 234) # do not login 
+    # tap(device, 702, 1417) # location not now
+    tap(device, 711, 487) # where to
     write_text(device, 'Amsterdam')
-    tap(device, 711, 403) # Top result
-    tap(device, 724, 2762) # Select dates
-    tap(device, 702, 1917) # Blue search btn
+    tap(device, 391, 598) # click first
+    tap(device, 256, 1020) # Hotels
     while True:
         swipe(device, 576, 2339, 576, 467)
         swipe(device, 576, 467, 576, 2339)
-        tap(device, 81, 169) # Back
-        tap(device, 769, 1352) # Search bar 
-        write_text(device, 'Amsterdam')
-        tap(device, 711, 403) # Top result
-        tap(device, 724, 2762) # Select dates
-        tap(device, 702, 1917) # Blue search btn
+        tap(device, 1341, 227) # search
+        write_text(device, 'Hotels')
+        tap(device, 369, 598) # click first result
 
 def scenarioNativeDeliveroo7pro(device: Device, isFirstRun):
     #if isFirstRun:

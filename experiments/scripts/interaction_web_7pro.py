@@ -31,21 +31,19 @@ def scenarioWebAliExpress7pro(device: Device, isFirstRun):
         tap(device, 1332, 2795) # print('search btn')
         swipe(device, 576, 2339, 576, 467)
 
-def scenarioWebBooking7pro(device: Device, isFirstRun):
-    time.sleep(5) # wait for cookies
-    tap(device, 1102, 2782) # accept cookies
-    tap(device, 697, 1592) # First search
+def scenarioWebTripAdvisorJ7(device: Device, isFirstRun):
+    tap(device, 648, 2216) # Where to
     write_text(device, 'Amsterdam')
-    tap(device, 1336, 2821) # keyboard search btn 
+    time.sleep(1)
+    tap(device, 522, 708) # First hit
+    logger.info('clicking hotels')
+    tap(device, 886, 1573) # Click hotels
     while True:
         swipe(device, 576, 2339, 576, 467)
         swipe(device, 576, 467, 576, 2339)
-        tap(device, 940, 1137) # Get search bar
-        tap(device, 675, 617) # Search
-        tap(device, 1309, 604) # Clear search
+        tap(device, 1332, 435) # Get search bar
         write_text(device, 'Amsterdam')
-        tap(device, 436, 838) # Top result
-        tap(device, 796, 1631) # Blue search
+        tap(device, 585, 656) # Click first hit
 
 def scenarioWebDeliveroo7pro(device: Device, isFirstRun):
     time.sleep(5) # Wait a little longer for the pop up
