@@ -1,0 +1,260 @@
+---
+title: "App vs Web App"
+author: "Lucien Martijn, Stijn Meijerink, Daniël Hana, Terry Bommels, Dion David Haneveld"
+date: "23 October 2020"
+output: pdf_document
+highlight: tango
+---
+
+```{r echo = T, results = 'hide', message=FALSE, warning=FALSE, error=FALSE}
+# Include libraries used in lectures
+library(tidyverse)
+library(car)
+library(bestNormalize)
+library(ggplot2)
+library(effsize)
+```
+
+First we read recursively all data collected.
+```{r echo = T, results = 'hide', message=FALSE, warning=FALSE, error=FALSE}
+# Get all joule_results.*.csv
+csv_paths <- list.files(path = "./Data/", 
+                        recursive = TRUE, 
+                        pattern = "^Joule.*\\.csv", 
+                        full.names = TRUE)
+# read all csv
+app_data <- csv_paths %>%
+  lapply(read_csv) %>%
+  bind_rows
+
+# Add paths to data frame for reading out the correct names later
+app_data['path'] = csv_paths
+
+# Based on the paths get the device tier and add it to the dataframe
+app_data['device'] <- csv_paths %>%
+  strsplit('-', fixed = TRUE) %>%
+  rapply(nth, n=1) %>%
+  strsplit('/', fixed = TRUE) %>%
+  rapply(nth, n=6) %>%
+  factor
+
+extract_app_type <- function(splitString){
+  temp <- strsplit(x = splitString, split = '-', fixed = TRUE)
+  result <- unlist(temp)[3]
+  if(str_detect(result, 'www')){
+    result <- "web"
+  }
+  if(str_detect(result, 'runner')){
+    result <- "native"
+  }
+  return(result)
+}
+# Extract app type based on path
+app_type <- app_data$path %>%
+  lapply(extract_app_type)
+app_data['app_type']<- unlist(app_type)
+
+extract_app_name <- function(path)  {
+  temp <- strsplit(x = path, split = '/', fixed = TRUE)
+  result <- unlist(temp)[7]
+  if(str_detect(result, '(.*https-www.*)')){
+    result <- unlist(strsplit(x = result, split = '-'))[3]
+  }
+  if(str_detect(result, '(.*android-runner-experiments.*)')){
+    result <- unlist(strsplit(x = result, split = '-'))[6]
+  }
+  return(result)
+}
+
+# Extract app names based on path
+app_names <- app_data$path %>%
+  lapply(extract_app_name)
+app_data['app'] <- unlist(app_names)
+
+updateMisalignedAppNames <- function(app){
+  if(app == 'alibaba'){
+    app = 'aliexpress'
+  } else if(app == 'inditex'){
+    app = 'zara'
+  } else if(app == 'ninegag'){
+    app = '9gag'
+  } else if(app == 'google'){
+    app = 'youtube'
+  }else {
+    app = app
+  }
+}
+
+# The native app name for aliexpress is Alibaba so we update it to aliexpress
+updatedAppNames <- app_data$app %>%
+  lapply(updateMisalignedAppNames)
+
+# Add the updated names to the dataframe again
+app_data['app'] <- unlist(updatedAppNames)
+
+app_data$app_type <- as.factor(app_data$app_type)
+app_data$app <- as.factor(app_data$app)
+```
+```{r}
+# Show a part of the data frame
+tail(app_data)
+```
+
+Let us also see if all treatments are present
+```{r}
+table(app_data$device, app_data$app_type)
+```
+
+And write the full results to a file, to distribute for the replication package.
+```{r}
+write_csv(path = './full_results.csv', x = app_data)
+```
+
+
+# 1. Discriptive statistics
+
+```{r}
+# Define a summarize data function
+summarize_data <- function(data){
+  data %>%
+  group_by(app) %>%
+  summarize(n = n(), 
+            mean = mean(Joule_calculated),
+            median = median(Joule_calculated),
+            sd = sd(Joule_calculated),
+            IQR = IQR(Joule_calculated),
+            min = min(Joule_calculated),
+            max = max(Joule_calculated))
+}
+
+summarize_data(app_data)
+```
+
+```{r}
+app_data %>%
+  group_by(app_type, device) %>%
+  summarise(mean = mean(Joule_calculated),
+            sd = sd(Joule_calculated))
+```
+This shows us that the mean of high-end data is lower. Furthermore we observe that the standard deviation is much less at the high-end deivce tier. The last observation we can make is that in general app_type web consumes more energy.
+
+Visualizing the data with boxplots results in the following plot.
+```{r}
+boxplot(app_data$Joule_calculated, main = "Joules Distribution by Group",  ylab = "Joules", col = "steelblue", border = "black")
+```
+We see a positively skewed dataset with quite some outliers. 
+
+```{r}
+boxplot(Joule_calculated ~ device,
+  data = app_data,
+  main = "Joules Distribution by Group",
+  xlab = "Group",
+  ylab = "Joules",
+  col = "steelblue",
+  border = "black", 
+  las = 2 #make x-axis labels perpendicular
+)
+```
+<!-- IVANO's paper -->
+<!-- As shown in the boxplot in Figure 2, the dataset appears quite positively skewed, with the mean higher than the median. Indeed, the data scores negatively for normality (W = 0.95141, p-value = 0.02459). This is due to the high difference in the energy consumption values between the two mobile devices, as can be also observed in the boxplot in Figure x. For this reason, for the rest of our analysis we will use the type of mobile device as a blocking factor. -->
+
+# 2. Hypothesis Testing
+To perform a 2 way ANOVA we first need to validate the assumptions.
+
+Errors are statistically independent: this assumption is satisfied by the randomization of our measurement runs.
+
+Residuals are not normally distributed: we verified this by performing a Shapiro-Wilk normality test on the residuals: 
+
+```{r}
+check_normality <- function(data){
+  plot(density(data))
+  car::qqPlot(data)
+  shapiro.test(data)
+}
+normality_value <- check_normality(app_data$Joule_calculated)
+```
+The Shapiro-Wilk test results in a p-value of: `r normality_value$p.value `. The density plot shows once again a tail. The QQ-plot does not show a straight line which also suggest the data does not stem from a normal distribution.
+
+Therefore we are going to apply some transformation to see if this shifts the data to a normal distribution.
+
+```{r}
+add_transform_data <- function(device_app_data){
+  return(device_app_data %>%
+    mutate(joule_log = log(Joule_calculated),
+           joule_sqrt = sqrt(Joule_calculated),
+           joule_reciprocal = 1/Joule_calculated))
+}
+visualize_transform_distributions <- function(device_app_data, title){
+  plot_cols <- c('Joule_calculated', 'joule_log', 'joule_sqrt', 'joule_reciprocal')
+  if(missing(title)){
+    mapply(hist, device_app_data[plot_cols], 
+         main = paste("Distribution of", plot_cols),
+         xlab = plot_cols)  
+  } else {
+    mapply(hist, device_app_data[plot_cols], 
+         main = paste("Distribution of", plot_cols, 'of', title),
+         xlab = plot_cols)  
+  }
+  
+}
+visualize_transform_distributions_with_auto_title <- function(device_app_data){
+  visualize_transform_distributions(device_app_data)
+}
+```
+
+```{r}
+app_data <- add_transform_data(app_data)
+
+# Transformation for high-end device
+app_data_high <- app_data %>%
+  filter(device == 'high')
+
+app_data_high %>%
+  visualize_transform_distributions('high-end device')
+
+high_end_shap_log <-app_data_high$joule_log %>%
+  shapiro.test
+
+high_end_shap_sqrt <-app_data_high$joule_sqrt %>%
+  shapiro.test
+
+high_end_shap_recip <- app_data_high$joule_reciprocal %>%
+  shapiro.test
+```
+Looking at the transformed distributions for a high-end device we see that the distributions for a transformation with square root and reciprocal shows the most promissing normal distribution. However if we apply the Shapiro–Wilk test we get `r high_end_shap_sqrt$p.value` and `r high_end_shap_recip$p.value` respectively.
+
+```{r}
+# Transformations for low-end device
+app_data_low <- app_data %>%
+  filter(device == 'low')
+
+app_data_low %>%
+  visualize_transform_distributions('low-end device')
+
+low_end_shap_log <-app_data_low$joule_log %>%
+  shapiro.test
+
+low_end_shap_sqrt <-app_data_low$joule_sqrt %>%
+  shapiro.test
+
+low_end_shap_recip <- app_data_low$joule_reciprocal %>%
+  shapiro.test
+```
+None of the distributions show a very clear sign of stemming from a normal distribution. However the closest is the square root transformation once again. Using the Shapiro-Wilk test, we get a p-value of `r low_end_shap_sqrt$p.value` which rejects the null hyptohesis of stemming from a normal distribution. 
+
+Therefore the normality assumption cannot be met. This results in RQ2 not being able to be answered. For RQ1 we need to perform a non-parametric alternative. Which is in this case Wilcoxon Signed rank test.
+
+# RQ1
+RQ1 will be answered with the Wilcoxon Signed rank test.
+
+```{r}
+wilcox.data.x <- app_data %>%
+  filter(app_type == 'web')
+wilcox.data.y <- app_data %>%
+  filter(app_type == 'native')
+wilcox.test.result <- wilcox.test(wilcox.data.x$Joule_calculated, wilcox.data.y$Joule_calculated, paired=TRUE)
+```
+
+The test yields a p-value of `r wilcox.test.result$p.value ` which rejects the null hyptohesis. Therefore we assume the alternative hyptothesis of $\mu_{web} \neq \mu_{native}$. 
+
+# 3. Effect size
