@@ -32,7 +32,7 @@ def scenarioWebAliExpress7pro(device: Device, isFirstRun):
         swipe(device, 576, 2339, 576, 467)
 
 def scenarioWebTripAdvisorJ7(device: Device, isFirstRun):
-    tap(device, 648, 2216) # Where to
+    tap(device, 661, 2041) # Where to
     write_text(device, 'Amsterdam')
     time.sleep(1)
     tap(device, 522, 708) # First hit
