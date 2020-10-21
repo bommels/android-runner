@@ -197,15 +197,26 @@ check_normality <- function(data){
 differences <- with(mean_device_app_type, Joule[app_type == "web"] - Joule[app_type == "native"])
 ```
 
+Split dataset in high-tier & low-tier due to blocking factor device type
+```{r}
+mean_device_app_type_high <- app_data %>%
+  filter(device == 'high') %>%
+  arrange(app_type, app)
+
+mean_device_app_type_low <- app_data %>%
+  filter(device == 'low') %>%
+  arrange(app_type, app)
+```
+
 Check normality of differences for high end device tier:
 ```{r}
-check_normality(with(mean_device_app_type_high, Joule[app_type == "web"] - Joule[app_type == "native"]))
+check_normality(with(mean_device_app_type_high, Joule_calculated[app_type == "web"] - Joule_calculated[app_type == "native"]))
 # Likely to stem from normal distribution
 ```
 
 Check normality of differences for low end device tier:
 ```{r}
-check_normality(with(mean_device_app_type_low, Joule[app_type == "web"] - Joule[app_type == "native"]))
+check_normality(with(mean_device_app_type_low, Joule_calculated[app_type == "web"] - Joule_calculated[app_type == "native"]))
 # Very likely to stem from normal distribution
 ```
 
@@ -214,8 +225,8 @@ There should be no extreme outliers in the differences
 
 ```{r}
 par(mfrow=c(1,2))
-boxplot(Joule~app_type, data= mean_device_app_type_high, main = "Distribution for a high end device with both app types")
-boxplot(Joule~app_type, data= mean_device_app_type_low, main = "Distribution for a low end device with both app types")
+boxplot(Joule_calculated~app_type, data= mean_device_app_type_high, main = "Distribution for a high end device with both app types")
+boxplot(Joule_calculated~app_type, data= mean_device_app_type_low, main = "Distribution for a low end device with both app types")
 ```
 
 
@@ -224,8 +235,8 @@ RQ1 will be answered with the paired t test.
 
 ```{r}
 # Perform paired t test
-highRes <- t.test(Joule ~ app_type, data = mean_device_app_type_high, paired = T)
-lowRes <- t.test(Joule ~ app_type, data = mean_device_app_type_low, paired = T)
+highRes <- t.test(Joule_calculated ~ app_type, data = mean_device_app_type_high, paired = T)
+lowRes <- t.test(Joule_calculated ~ app_type, data = mean_device_app_type_low, paired = T)
 highRes$p.value
 lowRes$p.value
 ```
@@ -244,8 +255,8 @@ This leads us to the following conclusion for RQ1: for high end devices it can b
 # 3. Effect size
 ```{r}
 # Effect size
-cohenResHigh <- cohen.d(Joule ~ app_type, data = mean_device_app_type_high, paired = T, pooled = FALSE)
-cohenResLow <- cohen.d(Joule ~ app_type, data = mean_device_app_type_low, paired = T, pooled = FALSE)
+cohenResHigh <- cohen.d(Joule_calculated ~ app_type, data = mean_device_app_type_high, paired = T, pooled = FALSE)
+cohenResLow <- cohen.d(Joule_calculated ~ app_type, data = mean_device_app_type_low, paired = T, pooled = FALSE)
 
 cohenResHigh$estimate #Effect size is large for high
 cohenResLow$estimate #Effect size is large for low
@@ -258,7 +269,7 @@ Effect size for both device tiers is large.
 font_size <- 12
 
 visualize_both <- function(data, title){
-  result <- ggplot(data, aes(x = app, y = Joule)) +
+  result <- ggplot(data, aes(x = app, y = Joule_calculated)) +
   theme_classic() +
   xlab("App") + ylab("Joules") +
   ylim(c(0, max(data$Joule) + 50)) +
@@ -278,11 +289,11 @@ visualize_both <- function(data, title){
 ```
 
 ```{r}
-visualize_both(high_end_app_data, "High end data visualized for every app with app_type treatment")
+visualize_both(mean_device_app_type_high, "High end data visualized for every app with app_type treatment")
 ```
 Except for aliexpress every web app has a higher energy consumption. Aliexpress however also shows a high standard deviation for the native app, which could possibly indicate a measurement error.
 
 ```{r}
-visualize_both(low_end_app_data, "Low end data visualized for every app with app_type treatment")
+visualize_both(mean_device_app_type_low, "Low end data visualized for every app with app_type treatment")
 ```
 The low end device's data has more deviation in the data with some outliers for example at weather_native and youtube_web.
