@@ -193,11 +193,16 @@ check_normality <- function(data){
 ```
 
 
+This is aggregated over 15 datapoints per subject. Here for both low-end and high-end devices differences  are taken. This is not good, as device type is blocking factor.
 ```{r}
 differences <- with(mean_device_app_type, Joule[app_type == "web"] - Joule[app_type == "native"])
 ```
 
-Split dataset in high-tier & low-tier due to blocking factor device type
+```{r}
+check_normality(differences)
+```
+
+Split dataset in high-tier & low-tier due to blocking factor device type (each group of 210 points)
 ```{r}
 mean_device_app_type_high <- app_data %>%
   filter(device == 'high') %>%
@@ -219,7 +224,6 @@ Check normality of differences for low end device tier:
 check_normality(with(mean_device_app_type_low, Joule_calculated[app_type == "web"] - Joule_calculated[app_type == "native"]))
 # Very likely to stem from normal distribution
 ```
-
 ### Assumption 3
 There should be no extreme outliers in the differences
 
