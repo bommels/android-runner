@@ -217,6 +217,7 @@ check_normality <- function(data){
 ```
 
 
+This is aggregated over 15 datapoints per subject. Here for both low-end and high-end devices differences  are taken. This is not good, as device type is blocking factor.
 ```{r}
 mean_device_app_type_high <- app_data %>%
   filter(device == 'high') %>%
@@ -229,16 +230,29 @@ mean_device_app_type_low <- app_data %>%
 # differences <- with(mean_device_app_type, Joule[app_type == "web"] - Joule[app_type == "native"])
 ```
 
+Split dataset in high-tier & low-tier due to blocking factor device type (each group of 210 points)
+```{r}
+mean_device_app_type_high <- app_data %>%
+  filter(device == 'high') %>%
+  arrange(app_type, app)
+
+mean_device_app_type_low <- app_data %>%
+  filter(device == 'low') %>%
+  arrange(app_type, app)
+```
+
 Check normality of differences for high end device tier:
 ```{r}
 differences_high <- with(mean_device_app_type_high, Joule_calculated[app_type == "web"] - Joule_calculated[app_type == "native"])
 normality_high <- check_normality(differences_high)
+normality_high
 # Likely to stem from normal distribution
 ```
+
 ```{r}
 # Write image
 jpeg("./plots/qq_high.jpeg")
-?car::qqPlot(differences_high, main="QQ-plot for device type high-end with differences of joules between app type treatments")
+car::qqPlot(differences_high, main="QQ-plot for device type high-end with differences of joules between app type treatments")
 dev.off()
 ```
 
@@ -253,10 +267,9 @@ Because it doesn't fit the low device data does not fit the normal distribution 
 ```{r}
 # Write image
 jpeg("./plots/qq_low.jpeg")
-?car::qqPlot(differences_high, main="QQ-plot for device type low-end with differences of joules between app type treatments")
+car::qqPlot(differences_low, main="QQ-plot for device type low-end with differences of joules between app type treatments")
 dev.off()
 ```
-
 
 # Add transformations
 ```{r}
@@ -304,6 +317,7 @@ high_end_web <- mean_device_app_type_high %>%
 high_end_native <- mean_device_app_type_high %>%
   filter(app_type == 'native')
 highRes <- t.test(high_end_web$Joule_calculated, high_end_native$Joule_calculated, paired = T)
+
 highRes$p.value
 ```
 The obtained p-value for high-end device is `r highRes$p.value ` which is significant. 
@@ -370,7 +384,6 @@ visualize_both <- function(data, title){
 
 ```{r}
 visualize_both(mean_device_app_type_high, "High end data visualized for every app with app_type treatment")
-
 ggsave("./plots/gg_plot_high_end.jpeg")
 ```
 Except for aliexpress every web app has a higher energy consumption. Aliexpress however also shows a high standard deviation for the native app, which could possibly indicate a measurement error.
