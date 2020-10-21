@@ -14,6 +14,7 @@ library(bestNormalize)
 library(ggplot2)
 library(effsize)
 library(xtable)
+library(EnvStats)
 ```
 
 First we read recursively all data collected to construct one big dataframe.
@@ -393,3 +394,28 @@ visualize_both(mean_device_app_type_low, "Low end data visualized for every app 
 ggsave("./plots/gg_plot_low_end.jpeg")
 ```
 The low end device's data has more deviation in the data with some outliers for example at weather_native and youtube_web.
+
+```{r}
+app_data %>% summarise(
+  min = min(Joule_calculated),
+  max = max(Joule_calculated),
+  median = median(Joule_calculated),
+  mean = mean(Joule_calculated),
+  sd = sd(Joule_calculated),
+  cv = cv(Joule_calculated)
+)
+```
+Energy consumption summarized for both devices.
+
+```{r}
+app_data %>%
+group_by(device) %>% summarise(
+  min = min(Joule_calculated),
+  max = max(Joule_calculated),
+  median = median(Joule_calculated),
+  mean = mean(Joule_calculated),
+  sd = sd(Joule_calculated),
+  cv = cv(Joule_calculated)
+)
+```
+Energy consumption summarized per device.
