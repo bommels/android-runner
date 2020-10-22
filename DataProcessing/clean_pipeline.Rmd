@@ -204,7 +204,7 @@ names(mean_device_app_type)[names(mean_device_app_type)=="mean(Joule_calculated)
 The back-up statisical test that we get to know is the one way ANOVA, because we are left with one response variable and one explainatiry factor (fixed on two levels). However this is equivalent to a paired t-test. Therefore we will conduct a paired t test with a split on device tier, to account for the blocking factor.
 
 ### Assumption 1
-The participants should be selected randomly from the population. This has been accounted for in the experiment setup.
+The subjects should be selected randomly from the population. This has been accounted for in the experiment setup.
 
 ### Assumption 2
 The differences between the pairs should be approximately normally distributed
@@ -426,3 +426,16 @@ group_by(device) %>% summarise(
 )
 ```
 Energy consumption summarized per device.
+
+```{r}
+app_data %>%
+group_by(device, app_type) %>% summarise(
+  min = min(Joule_calculated),
+  max = max(Joule_calculated),
+  median = median(Joule_calculated),
+  mean = mean(Joule_calculated),
+  sd = sd(Joule_calculated),
+  cv = cv(Joule_calculated)
+)
+```
+Energy consumption per device and app_type
