@@ -242,6 +242,13 @@ mean_device_app_type_low <- app_data %>%
   arrange(app_type, app)
 ```
 
+```{r}
+check_normality(mean_device_app_type_high$Joule_calculated)
+
+check_normality(mean_device_app_type_low$Joule_calculated)
+```
+
+
 Check normality of differences for high end device tier:
 ```{r}
 differences_high <- with(mean_device_app_type_high, Joule_calculated[app_type == "web"] - Joule_calculated[app_type == "native"])
@@ -317,7 +324,7 @@ high_end_web <- mean_device_app_type_high %>%
   filter(app_type == 'web')
 high_end_native <- mean_device_app_type_high %>%
   filter(app_type == 'native')
-highRes <- t.test(high_end_web$Joule_calculated, high_end_native$Joule_calculated, paired = T)
+highRes <- t.test(x = high_end_web$Joule_calculated, y = high_end_native$Joule_calculated, paired = T, alternative = "two.sided")
 
 highRes$p.value
 ```
@@ -328,7 +335,8 @@ low_end_web <- mean_device_app_type_low %>%
   filter(app_type == 'web')
 low_end_native <- mean_device_app_type_low %>%
   filter(app_type == 'native')
-lowRes <- wilcox.test(low_end_web$Joule_calculated, low_end_native$Joule_calculated, paired = T)
+lowRes <- wilcox.test(x = low_end_web$Joule_calculated, y = low_end_native$Joule_calculated, paired = T, alternative = "two.sided")
+
 lowRes$p.value
 ```
 The obtained p-value for low-end device is `r highRes$p.value ` which is significant.
@@ -349,8 +357,8 @@ This leads us to the following conclusion for RQ1: there is a significant differ
 # 3. Effect size
 ```{r}
 # Effect size
-cohenResHigh <- cliff.delta(high_end_web$Joule_calculated, high_end_native$Joule_calculated, paired = T, pooled = FALSE)
-cohenResLow <- cliff.delta(low_end_web$Joule_calculated, low_end_native$Joule_calculated, paired = T, pooled = FALSE)
+cohenResHigh <- cohen.d(high_end_web$Joule_calculated, high_end_native$Joule_calculated, paired = T, pooled = FALSE)
+cliffResLow <- cliff.delta(low_end_web$Joule_calculated, low_end_native$Joule_calculated, paired = T, pooled = FALSE)
 
 cohenResHigh$estimate #Effect size is large for high
 cohenResLow$estimate #Effect size is large for low
@@ -362,7 +370,6 @@ Effect size for both device tiers is large.
 ```{r}
 font_size <- 12
 
-# TODO Rotate labels of x axis!
 visualize_both <- function(data, title){
   result <- ggplot(data, aes(x = app, y = Joule_calculated)) +
   theme_classic() +
