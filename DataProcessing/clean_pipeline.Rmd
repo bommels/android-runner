@@ -148,7 +148,7 @@ This shows us that the mean of high-end data is lower. Furthermore we observe th
 Visualizing the full data frame with a boxplot results in the following plot.
 ```{r}
 jpeg(file="./plots/boxplot_full.jpeg")
-boxplot(app_data$Joule_calculated, main = "Joules Distribution of entire dataset",  ylab = "Joules", col = "steelblue", border = "black")
+boxplot(app_data$Joule_calculated, main = "Joules Distribution of entire dataset",  ylab = "Joules", col = "steelblue", border = "black", xlab="Energy consumption")
 dev.off()
 ```
 We see a positively skewed dataset with quite some outliers. 
@@ -179,7 +179,7 @@ boxplot(Joule_calculated ~ device : app_type,
   ylab = "Joules",
   col = "steelblue",
   border = "black", 
-  las = 2 #make x-axis labels perpendicular
+  las = 1 #make x-axis labels perpendicular
 )
 dev.off()
 ```
@@ -260,7 +260,7 @@ normality_high
 ```{r}
 # Write image
 jpeg("./plots/qq_high.jpeg")
-car::qqPlot(differences_high, main="QQ-plot for device type high-end with differences of joules between app type treatments")
+car::qqPlot(differences_high, main="QQ-plot of differences in joule for high-end device")
 dev.off()
 ```
 
@@ -275,7 +275,7 @@ Because it doesn't fit the low device data does not fit the normal distribution 
 ```{r}
 # Write image
 jpeg("./plots/qq_low.jpeg")
-car::qqPlot(differences_low, main="QQ-plot for device type low-end with differences of joules between app type treatments")
+car::qqPlot(differences_low, main="QQ-plot of differences in joule for low-end device")
 dev.off()
 ```
 
