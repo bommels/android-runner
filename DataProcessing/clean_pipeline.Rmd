@@ -158,8 +158,8 @@ Let us split this up on device type and we see two more normal distributed boxpl
 jpeg(file="./plots/boxplot_device.jpeg")
 boxplot(Joule_calculated ~ device,
   data = app_data,
-  main = "Joules Distribution by app type",
-  xlab = "App type",
+  main = "Joules Distribution by device tier",
+  xlab = "Device tier",
   ylab = "Joules",
   col = "steelblue",
   border = "black", 
