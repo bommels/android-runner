@@ -361,7 +361,7 @@ cohenResHigh <- cohen.d(high_end_web$Joule_calculated, high_end_native$Joule_cal
 cliffResLow <- cliff.delta(low_end_web$Joule_calculated, low_end_native$Joule_calculated, paired = T, pooled = FALSE)
 
 cohenResHigh$estimate #Effect size is large for high
-cohenResLow$estimate #Effect size is large for low
+cliffResLow$estimate #Effect size is large for low
 ```
 Effect size for both device tiers is large.
 
