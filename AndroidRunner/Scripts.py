@@ -37,4 +37,9 @@ class Scripts(object):
     def run(self, name, device, *args, **kwargs):
         self.logger.debug('Running hook {} on device {}\nargs: {}\nkwargs: {}'.format(name, device, args, kwargs))
         for script in self.scripts.get(name, []):
-            script.run(device, *args, **kwargs)
+            script.run(device, name, *args, **kwargs)
+
+    # def run(self, name, device, path, *args, **kwargs):
+    #     self.logger.debug('Running hook {} on device {}\nargs: {}\nkwargs: {}'.format(name, device, args, kwargs))
+    #     for script in self.scripts.get(name, []):
+    #         script.run(device, name, path, *args, **kwargs)        

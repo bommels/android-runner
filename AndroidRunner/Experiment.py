@@ -21,7 +21,7 @@ class Experiment(object):
         self.basedir = None
         self.random = config.get('randomization', False)
         Tests.is_valid_option(self.random, valid_options=[True, False])
-        self.clear_cache = config.get('clear_cache', False)
+        self.clear_cache = config.get('clear_cache', True)
         Tests.is_valid_option(self.clear_cache, valid_options=[True, False])
         if 'devices' not in config:
             raise ConfigError('"device" is required in the configuration')
@@ -38,6 +38,7 @@ class Experiment(object):
         Tests.check_dependencies(self.devices, self.profilers.dependencies())
         self.output_root = paths.OUTPUT_DIR
         self.result_file_structure = None
+        self.totalRuns = 0
         if restart:
             for device in self.devices:
                 self.prepare_device(device, restart=True)
@@ -195,14 +196,19 @@ class Experiment(object):
         self.scripts.run('before_run', device, *args, **kwargs)
 
     def after_launch(self, device, path, run, *args, **kwargs):
-        self.scripts.run('after_launch', device, device.id, device.current_activity())
+        self.totalRuns = self.totalRuns + 1
+        self.scripts.run('after_launch', device, [device.id, self.totalRuns], device.current_activity())
 
     def start_profiling(self, device, path, run, *args, **kwargs):
         self.profilers.start_profiling(device)
 
     def interaction(self, device, path, run, *args, **kwargs):
         """Interactions on the device to be profiled"""
-        self.scripts.run('interaction', device, *args, **kwargs)
+        if run == 1:
+            isFirstRun = True
+        else:
+            isFirstRun = False
+        self.scripts.run('interaction', device, [path,isFirstRun], **kwargs)
 
     def stop_profiling(self, device, path, run, *args, **kwargs):
         self.profilers.stop_profiling(device)
