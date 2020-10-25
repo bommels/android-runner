@@ -1,0 +1,562 @@
+---
+title: "App vs Web App"
+author: "Lucien Martijn, Stijn Meijerink, Daniël Hana, Terry Bommels, Dion David Haneveld"
+date: "23 October 2020"
+output: pdf_document
+highlight: tango
+---
+
+```{r, results='hide'}
+# Include libraries used in lectures
+library(tidyverse)
+library(car)
+library(bestNormalize)
+library(ggplot2)
+library(effsize)
+```
+
+First we have to read in the data. There were four seperate runs we have to 'stitch' together the aggregated results.
+```{r}
+# First aggregated read, do we need it?
+# data <- read.csv('~/Git/uni/GL/android-runner/Data/EXAMPLE-Aggregated_Results_Batterystats.csv', sep = ';')
+# data <- tibble(data)
+
+# as.factor(data$device)
+# as.factor(data$app_type)
+# as.factor(data$subject)
+# as.numeric(data$batterystats_Joule_calculated)
+```
+
+We also want to be sure that the data is valid, thus not having a too high standard deviation between subjects and treatments themselves.
+```{r}
+# Get all joule_results.*.csv
+csv_paths <- list.files(path = './Data/', 
+                        recursive = TRUE, 
+                        pattern = '^Joule.*\\.csv', 
+                        full.names = TRUE)
+# read all csv
+app_data <- csv_paths %>%
+  lapply(read_csv) %>%
+  bind_rows
+
+# Add paths to data frame for reading out the correct names later
+app_data['path'] = csv_paths
+
+# Based on the paths get the device tier and add it to the dataframe
+app_data['device'] <- csv_paths %>%
+  strsplit('-', fixed = TRUE) %>%
+  rapply(nth, n=1) %>%
+  strsplit('/', fixed = TRUE) %>%
+  rapply(nth, n=6) %>%
+  factor
+
+extract_app_type <- function(splitString){
+  temp <- strsplit(x = splitString, split = '-', fixed = TRUE)
+  result <- unlist(temp)[3]
+  if(str_detect(result, 'www')){
+    result <- "web"
+  }
+  if(str_detect(result, 'runner')){
+    result <- "native"
+  }
+  return(result)
+}
+# Extract app type based on path
+app_type <- app_data$path %>%
+  lapply(extract_app_type)
+app_data['app_type']<- unlist(app_type)
+
+extract_app_name <- function(path)  {
+  temp <- strsplit(x = path, split = '/', fixed = TRUE)
+  result <- unlist(temp)[7]
+  if(str_detect(result, '(.*https-www.*)')){
+    result <- unlist(strsplit(x = result, split = '-'))[3]
+  }
+  if(str_detect(result, '(.*android-runner-experiments.*)')){
+    result <- unlist(strsplit(x = result, split = '-'))[6]
+  }
+  return(result)
+}
+
+# Extract app names based on path
+app_names <- app_data$path %>%
+  lapply(extract_app_name)
+app_data['app'] <- unlist(app_names)
+
+updateMisalignedAppNames <- function(app){
+  if(app == 'alibaba'){
+    app = 'aliexpress'
+  } else if(app == 'inditex'){
+    app = 'zara'
+  } else if(app == 'ninegag'){
+    app = '9gag'
+  } else if(app == 'google'){
+    app = 'youtube'
+  }else {
+    app = app
+  }
+}
+
+# The native app name for aliexpress is Alibaba so we update it to aliexpress
+updatedAppNames <- app_data$app %>%
+  lapply(updateMisalignedAppNames)
+
+# Add the updated names to the dataframe again
+app_data['app'] <- unlist(updatedAppNames)
+
+app_data$app_type <- as.factor(app_data$app_type)
+app_data$app <- as.factor(app_data$app)
+
+# Show a part of the data frame
+tail(app_data)
+table(app_data$device, app_data$app_type)
+write_csv(path = './full_results.csv', x = app_data)
+```
+
+As we can see ....
+
+# 1. Descriptive statistics
+```{r}
+summarize_data <- function(data){
+  data %>%
+  group_by(app) %>%
+  summarize(n = n(), 
+            mean = mean(Joule_calculated),
+            median = median(Joule_calculated),
+            sd = sd(Joule_calculated),
+            IQR = IQR(Joule_calculated),
+            min = min(Joule_calculated),
+            max = max(Joule_calculated))
+}
+
+# Grouped by app type, so not split based on device tier
+summarize_data(app_data)
+
+# Summary for high-end device
+high_end_app_data <- app_data %>%
+  filter(device == 'high')
+summarize_data(high_end_app_data)
+
+high_end_web_app_data <- high_end_app_data %>%
+  filter(app_type == 'web')
+summarize_data(high_end_web_app_data)
+
+high_end_native_app_data <- high_end_app_data %>%
+  filter(app_type == 'native')
+summarize_data(high_end_native_app_data)
+
+# Summary for low-end device
+low_end_app_data <- app_data %>%
+  filter(device == 'low')
+summarize_data(low_end_app_data)
+
+low_end_web_app_data <- low_end_app_data %>%
+  filter(app_type == 'web')
+summarize_data(low_end_web_app_data)
+
+low_end_native_app_data <- low_end_app_data %>%
+  filter(app_type == 'native')
+summarize_data(low_end_native_app_data)
+
+```
+
+```{r}
+# For all devices
+app_data$Joule_calculated %>%
+  hist(breaks = 25, main = "Distribution of Joule_calculated for both device tiers and app types")
+
+# For high-end
+high_end_app_data$Joule_calculated %>%
+  hist(breaks = 25, main = "Distribution of Joule_calculated for high-end with all app types")
+# For low-end
+low_end_app_data$Joule_calculated %>%
+  hist(breaks = 25, main = "Distribution of Joule_calculated for low-end with all app types")
+```
+
+
+```{r}
+check_normality <- function(data){
+  plot(density(data))
+  car::qqPlot(data)
+  shapiro.test(data)
+}
+```
+
+```{R}
+data.sum.low_end <- low_end_app_data$Joule_calculated %>%
+  check_normality
+
+```
+The density shows a very heavy right tail. The peak of the curve is at around $300$. With two smaller 'peaks' at $450$ and $650$. With a p-value of `r data.sum.low_end$p.value` for the Shapiro-Wilk normality test we can conclude that the sample is not drawn from a normal distribution. 
+
+```{R}
+data.sum.high_end <- high_end_app_data$Joule_calculated %>%
+  check_normality
+data.sum.high_end
+```
+The density shows a heavy right tail. The peak of the curve is at around $160$. With a small peak on the left tail at around $100$. With a p-value of `r data.sum.high_end$p.value` for the Shapiro-Wilk normality test we can conclude that the sample is not drawn from a normal distribution. 
+
+
+## Split data on device tier and app type
+As shown previously the normality cannot be assumed on distributions when we use only the device type. Therefore we also will check if this changes if we split all data up on device tier and app type.
+
+```{R}
+high_end_web_app_data$Joule_calculated %>%
+  check_normality
+```
+Normality rejected.
+
+```{r}
+high_end_native_app_data$Joule_calculated %>%
+  check_normality
+```
+Normality rejected.
+
+```{r}
+data.sum.high_end <-low_end_web_app_data$Joule_calculated %>%
+  check_normality
+```
+Normality rejected.
+
+```{r}
+low_end_native_app_data$Joule_calculated %>%
+  check_normality
+```
+Normality rejected.
+
+## Also split it per app?
+
+
+## Adding transformations
+As a last resort we will perform a few standard transformation on the data to see if we can hold on to the normality assumption. We add a logarithm, square root and reciprocal transformation to the data frame.
+```{r}
+add_transform_data <- function(device_app_data){
+  return(device_app_data %>%
+    mutate(joule_log = log(Joule_calculated),
+           joule_sqrt = sqrt(Joule_calculated),
+           joule_reciprocal = 1/Joule_calculated))
+}
+visualize_transform_distributions <- function(device_app_data){
+  plot_cols <- c('Joule_calculated', 'joule_log', 'joule_sqrt', 'joule_reciprocal')
+  mapply(hist, device_app_data[plot_cols], 
+         main = paste("Distribution of", plot_cols),
+         xlab = plot_cols)
+}
+```
+
+```{R}
+low_end_app_data <- add_transform_data(low_end_app_data)
+visualize_transform_distributions(low_end_app_data)
+data.sum.low_end_transform <- low_end_app_data$joule_sqrt %>%
+  check_normality
+```
+
+```{R}
+high_end_app_data <- add_transform_data(high_end_app_data)
+visualize_transform_distributions(high_end_app_data)
+
+data.sum.high_end_transform <- high_end_app_data$joule_log %>%
+  check_normality
+```
+Normality for high end app data with a log transform cannot be rejected, p-value: `r data.sum.high_end_transform$p.value` for the Shapiro-Wilk normality test.
+
+
+```{r}
+# Checking for both app types
+
+high_end_web_app_data <- add_transform_data(high_end_web_app_data)
+visualize_transform_distributions(high_end_web_app_data)
+
+# normality cannot be rejected
+high_end_web_app_data$joule_log %>%
+  check_normality
+
+high_end_native_app_data <- add_transform_data(high_end_native_app_data)
+visualize_transform_distributions(high_end_native_app_data)
+
+# normality cannot be rejected
+high_end_native_app_data$joule_log %>%
+  check_normality
+```
+
+
+```{r}
+font_size <- 12
+
+visualize <- function(app_data, title){
+  result <- ggplot(app_data, aes(x = app, y = Joule_calculated)) +
+  theme_bw() +
+  xlab("App") + ylab("Joules") +
+  ylim(c(0, 800)) +
+  geom_violin(trim = TRUE, alpha = 0.5, width = 1) +
+  geom_boxplot(color = 'red', width = .2, fill = 'white', outlier.size = .5, alpha = .6) +
+  stat_summary(fun = mean, color = 'black', geom = 'point', shape = 5, size = 2, show.legend = T) +
+  theme(
+    strip.text.x = element_text(size = font_size),
+    strip.text.y = element_text(size = font_size),
+    axis.text.x = element_text(size = font_size),
+    axis.text.y = element_text(size = font_size)
+    ) + 
+  labs(title = title, subtitle = NULL, caption = NULL)
+
+  
+  return(result)
+}
+visualize(high_end_web_app_data, title = "Web subjects' energy consumption for high-end device")
+visualize(high_end_native_app_data, title = "Native subjects' energy consumption for high-end device")
+visualize(low_end_web_app_data, title = "Web subjects' energy consumption for low-end device")
+visualize(low_end_native_app_data, title = "Native subjects' energy consumption for low-end device")
+```
+
+```{r}
+apps <- c('9gag', 'aliexpress', 'deliveroo', 'reddit', 'weather', 'youtube', 'zara')
+historgramsPerApp <- function(device_tier_app_type_data){
+  for (appName in apps) {
+     dataApp <- device_tier_app_type_data %>%
+        filter(app == appName)
+     hist(x = dataApp$Joule_calculated, main = paste("Histogram of joules for ", appName), breaks = 25)
+  }  
+}
+historgramsPerApp(high_end_native_app_data)
+historgramsPerApp(high_end_web_app_data)
+historgramsPerApp(low_end_web_app_data)
+historgramsPerApp(low_end_native_app_data)
+```
+
+```{r}
+# Show joules per app type
+plot(app_data$Joule_calculated ~ app_data$app_type)
+
+# Show joules per app type
+plot(app_data$Joule_calculated ~ app_data$device)
+```
+
+
+# 2. Select statistical test
+Now that assessed normality we can select the statistical tests.
+
+For RQ1 the hyptohesis were formulated as follows:
+$H1_0 \tau_{web} = \tau_{native}$
+$H1_1 \tau_{web} \neq \tau_{native}$
+For RQ2 the hyptohesis were formulated as follows:
+$H2_0 : \tau\beta_{ij} = 0\forall i,j$
+$H2_1 : \exists(ij)|\tau\beta_{ij} \neq 0$
+
+Both hyptotheses can be answered with a two way-anova if the following assumptions are met. The dependent variable is continous (energy consumption in joules). The samples are obtained indepently. 
+
+The data follows a normal distribution as showed in the Descriptive statistics chapter.
+
+Residuals follow normal distribution:
+```{r}
+# Two way ANOVA
+app_data.two_way_aov <- aov(app_data$Joule_calculated ~ app_data$app_type * app_data$device)
+
+qqPlot(residuals(app_data.two_way_aov))
+```
+
+Homoscedasticity (varaiance between groups should be equal) check:
+```{r}
+# Not too sure? leveneTest(x ~ y, data = myData) in slides
+leveneTest(app_data$Joule_calculated, app_data$app_type)
+```
+
+If normality could be assumed on the entire dataset we could have answered RQ1 and RQ2 with a two-way ANOVA. However the normality asumption only holds for the high-end tiered devices. Therefore a two-way ANOVA cannot be performed and therefore RQ2 cannot be answered. RQ1 however can be answered based on the high-end tier's obtained data. Because this data is assumed to come from a normal distribution a paired t-test can be performed.
+
+# 3. Hypothesis testing
+```{r}
+# summary(app_data.two_way_aov)
+# # TODO do we need to do p-value corrections?
+# 
+# # TODO do we need Tukey's test, this isn't correct with example data at least
+# postHoc <- TukeyHSD(x = app_data.two_way_aov, 'app_data$app_type', conf.level = 0.95)
+# plot(postHoc)
+# postHoc
+```
+
+```{r}
+# Transformations to make the data normal? (DONE) or more?
+
+```
+
+```{r}
+# If normality can be assumed 
+
+# For high-end log transform the data can stem from a normal distribution, therefore we can perform a paired t test
+
+# FIXME blocking factor on device (now we just remove all low-end data)
+t.data.x <- high_end_native_app_data$joule_log
+t.data.y <- high_end_web_app_data$joule_log
+t.test.result <- t.test(t.data.x, t.data.y, paired=TRUE)
+
+t.test.result
+```
+The t test gives a p-value of `r t.test.result$p.value ` which is below the $\alpha = 0.05$ threshold. Therfore we reject the null-hyptothesis, and assume the alternative hypothesis which yields in this case the $\mu_{web} \neq \mu_{native}$.
+
+```{r}
+# If normality can't be assumed
+# Filter data with blocking factor device tier
+
+# Wilcoxon signed-rank non-parametric test
+
+wilcox.data.x <- high_end_native_app_data$Joule_calculated
+wilcox.data.y <- high_end_web_app_data$Joule_calculated
+wilcox.test.result <- wilcox.test(wilcox.data.x, wilcox.data.y, paired=TRUE)
+
+wilcox.test.result$p.value # Very significant?
+```
+
+# 4. Effect size calculation
+Now that we obtained our p-values we want to know what the effect size is. As shown before the results are significant. However the question remains is the difference in energy consumption in practice big enough to make a valid choice for the user and developer (described in the paper). 
+As we used an ANOVA we use Cohen\'s measure.
+```{r}
+# This text above is only true when p-value is significant
+
+# FIXME separate on device type?
+
+# Get all batterystats_Joule_calculated where app_type == web
+# treatmentWeb <- app_data %>%
+#   filter(app_type == 'web')
+
+# Get all batterystats_Joule_calculated where app_type == native
+# treatmentNative <- app_data %>%
+#   filter(app_type == 'native')
+
+# FIXME doesn't work with example data yet
+
+# cohen.d(treatmentWeb$Joule_calculated, treatmentNative$Joule_calculated, paired=FALSE, pooled=FALSE)
+# FIXME is paired false?
+
+# Taking the normality assumption, we use the transformed data (correct?) 
+cohen.d(high_end_native_app_data$joule_log, high_end_web_app_data$joule_log, paired = TRUE, pooled = FALSE)
+
+```
+
+
+# 5. Power analysis (optional)
+```{r}
+
+```
+
+
+# Visualization 
+
+```{r}
+
+font_size <- 12
+
+visualize_both <- function(app_data, title){
+  result <- ggplot(app_data, aes(x = app, y = Joule_calculated)) +
+  theme_classic() +
+  xlab("App") + ylab("Joules") +
+  ylim(c(0, max(app_data$Joule_calculated) + 50)) +
+    geom_boxplot(mapping = aes(label = app_type, fill = app_type), width = 1, color = 'black', outlier.size = .5, alpha = .7) +
+  geom_violin(mapping = aes(label = app_type, color = app_type), trim = TRUE, alpha = .8, width = 1) +
+  # stat_summary(mapping = aes(color = app_type), fun = mean, geom = 'point', shape = 5, size = 2, show.legend = T) +
+  theme(
+    strip.text.x = element_text(size = font_size),
+    strip.text.y = element_text(size = font_size),
+    axis.text.x = element_text(size = font_size),
+    axis.text.y = element_text(size = font_size)
+    )  +
+    labs(title = title,subtitle = NULL,caption = NULL)
+  
+  return(result)
+}
+
+visualize_both_v2 <- function(input_data, title){
+  result <- ggplot(input_data, aes(x = app, y = Joule_calculated)) +
+  theme_classic() +
+  xlab("App") + ylab("Joules") +
+  ylim(c(0, max(input_data$Joule_calculated) + 50)) +
+  geom_violin(mapping = aes(label = app_type, color = app_type), trim = TRUE, alpha = .5, width = .5) +
+  geom_boxplot(mapping = aes(label = app_type, fill = app_type), width = .5, color = 'black', outlier.size = .5, alpha = .4) +
+  theme(
+    strip.text.x = element_text(size = font_size),
+    strip.text.y = element_text(size = font_size),
+    axis.text.x = element_text(size = font_size),
+    axis.text.y = element_text(size = font_size)
+    ) +
+    labs(title = title,subtitle = NULL,caption = NULL)
+  
+  return(result)
+}
+web_apps_both_tier <- app_data %>%
+  filter(app_type == 'web')
+visualize(web_apps_both_tier, "web")
+
+native_apps_both_tier <- app_data %>%
+  filter(app_type == 'native')
+visualize(native_apps_both_tier, "native")
+
+visualize_both(low_end_app_data, "combined")
+visualize_both_v2(low_end_app_data, "combined")
+
+visualize_both(high_end_app_data, "combined")
+visualize_both_v2(high_end_app_data, "combined")
+
+```
+
+
+# (0) based on statology
+This can be ignored
+
+```{r}
+## Following https://www.statology.org/two-way-anova-r/ example
+app_data %>%
+  group_by(device, app_type) %>%
+  summarise(mean = mean(Joule_calculated),
+            sd = sd(Joule_calculated))
+```
+
+```{r}
+boxplot(Joule_calculated ~ device:app_type,
+  data = app_data,
+  main = "Joules Distribution by Group",
+  xlab = "Group",
+  ylab = "Joules",
+  col = "steelblue",
+  border = "black", 
+  las = 2 #make x-axis labels perpendicular
+)
+```
+
+```{r}
+model <- aov(Joule_calculated ~ device * app_type, data = app_data)
+summary(model)
+```
+
+```{r}
+# Independence – the observations in each group need to be independent of each other. Since we used a randomized design, this assumption should be met so we don’t need to worry too much about this
+
+# Normality – the dependent variable should be approximately normally distributed for each combination of the groups of the two factors. 
+
+# One way to check this assumption is to create a histogram of the model residuals. If the residuals are roughly normally distributed, this assumption should be met
+
+#define model residuals
+resid <- model$residuals
+
+#create histogram of residuals
+hist(resid, main = "Histogram of Residuals", xlab = "Residuals", col = "steelblue")
+
+# The residuals are not normally distributed, so we can assume the normality assumption is not met
+```
+```{r}
+#One way to check this assumption is to conduct a Levene’s Test for equality of variances using the car package
+
+#conduct Levene's Test for equality of variances
+leveneTest(Joule_calculated ~ device * app_type, data = app_data)
+
+# Since the p-value of the test is greater than our significance level of 0.05, we can assume that our assumption of equality of variances among groups is met
+```
+
+```{r}
+TukeyHSD(model, conf.level=.95) 
+```
+```{r}
+#set axis margins so labels don't get cut off
+par(mar=c(10, 13, 10, 2.1))
+# create confidence interval for each comparison
+plot(TukeyHSD(model, conf.level=.95), las = 2)
+```
+
+

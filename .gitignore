@@ -115,3 +115,5 @@ output/
 apks/
 
 apps/
+*.nb.html
+
