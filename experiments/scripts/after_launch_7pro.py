@@ -8,8 +8,8 @@ def main(device, *args, **kwargs):
         print('Accept Chrome policy prompts')
         # # Tap coordinates can be found by enabling 'Pointer location' in Developer options
         # # Accept Chrome policy prompts
-        device.shell('input tap 360 1200') # TODO only at the very start of the entire experiment?
-        device.shell('input tap 200 1200')
+        device.shell('input tap 729 2795') # TODO only at the very start of the entire experiment?
+        device.shell('input tap 162 2788')
         
         # Enable permissions for Chrome
         device.shell('pm grant com.android.chrome android.permission.RECORD_AUDIO')
