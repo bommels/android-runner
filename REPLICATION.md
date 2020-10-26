@@ -33,47 +33,20 @@ If this study is helping your research, consider to cite it is as follows, thank
 
 This replication package is structured as follows:
 
-
 ```
     android-runner
     .
+    |--- experiments/                          The monkeyrunner scripts with JSON configuration files for each device type and app type
+    |
     |--- DataProcessing/clean_pipeline.Rmd     The R Markdown file for plotting and assessing the extracted data (see below).
     |
-    |--- DataProcessing/Data/                  The full dataset used in the paper.
-    |
-    |--- experiments/                          The monkeyrunner scripts with JSON configuration files for each device type and app type
+    |--- DataProcessing/Data/                  The full dataset used in the paper.    
     |
     |--- mobilesoft-2021-nativevsweb.pdf       A copy of the paper in pdf format
     
 ```
 
 Each of the folders listed above are described in details in the remaining of this readme.
-
-### DataProcessing/Data/
----
-```
-    Data
-    .
-    |--- high.end.native/      The raw measurement batterystats output files of each native app on high end device.  
-    |--- high.end.web/         The raw measurement batterystats output files of each web app on high end device.  
-    |--- low.end.native/       The raw measurement batterystats output files of each native app on low end device.  
-    |--- low.end.web/          The raw measurement batterystats output files of each native app on low end device.  
-
-``` 
-
-### DataProcessing/
----
-```
-    DataProcessing
-    .
-    |--- plots/                       Plot figures
-    |
-    |--- all_results.csv              Entire dataset
-    |
-    |--- data_pipeline.Rmd            R script for plotting and assesing the dataset
-    |
-    |--- data_pipeline.pdf            Output of R Markdown file in pdf format
-```
 
 ### experiments/
 ---
@@ -94,6 +67,33 @@ Each of the folders listed above are described in details in the remaining of th
     |
     |--- config_J7_web.json           android-runner configuration file for batterystats for web apps on low-end device
 ```
+
+### DataProcessing/
+---
+```
+    DataProcessing
+    .
+    |--- plots/                       Plot figures
+    |
+    |--- all_results.csv              Entire dataset
+    |
+    |--- data_pipeline.Rmd            R script for plotting and assesing the dataset
+    |
+    |--- data_pipeline.pdf            Output of R Markdown file in pdf format
+```
+
+### DataProcessing/Data/
+---
+```
+    Data
+    .
+    |--- high.end.native/      The raw measurement batterystats output files of each native app on high end device.  
+    |--- high.end.web/         The raw measurement batterystats output files of each web app on high end device.  
+    |--- low.end.native/       The raw measurement batterystats output files of each native app on low end device.  
+    |--- low.end.web/          The raw measurement batterystats output files of each native app on low end device.  
+
+``` 
+
 
 ## License
 
