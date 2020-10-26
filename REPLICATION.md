@@ -90,7 +90,7 @@ Each of the folders listed above are described in details in the remaining of th
     |--- high.end.native/      The raw measurement batterystats output files of each native app on high end device.  
     |--- high.end.web/         The raw measurement batterystats output files of each web app on high end device.  
     |--- low.end.native/       The raw measurement batterystats output files of each native app on low end device.  
-    |--- low.end.web/          The raw measurement batterystats output files of each native app on low end device.  
+    |--- low.end.web/          The raw measurement batterystats output files of each web app on low end device.  
 
 ``` 
 
